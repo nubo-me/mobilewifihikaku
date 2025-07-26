@@ -17,10 +17,26 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
-// Initialize Analytics (only in browser environment)
-let analytics: Analytics | undefined;
-if (typeof window !== 'undefined') {
-  analytics = getAnalytics(app);
-}
+// Analytics 遅延初期化（本番環境のみ）
+let analyticsInstance: Analytics | null = null;
 
-export { app, analytics };
+const initAnalytics = async () => {
+  if (typeof window !== 'undefined' && !analyticsInstance && process.env.NODE_ENV === 'production') {
+    const { getAnalytics } = await import('firebase/analytics');
+    analyticsInstance = getAnalytics(app);
+  }
+  return analyticsInstance;
+};
+
+// Export analytics getter
+export const getAnalyticsInstance = () => {
+  if (typeof window === 'undefined' || process.env.NODE_ENV !== 'production') return null;
+  return analyticsInstance || initAnalytics();
+};
+
+// 開発環境では analytics を null にする
+export const analytics = typeof window !== 'undefined' && process.env.NODE_ENV === 'production' 
+  ? getAnalytics(app) 
+  : null;
+
+export { app };

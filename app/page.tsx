@@ -2,8 +2,6 @@
 'use client';
 
 import { useState } from 'react';
-import { analytics } from '../lib/firebase';
-import { logEvent } from 'firebase/analytics';
 
 const wifiRouters = [
   {
@@ -256,26 +254,7 @@ const faqs = [
 ];
 
 export default function Home() {
-  const [selectedRouter, setSelectedRouter] = useState<number | null>(null);
   const [openFaq, setOpenFaq] = useState<number | null>(null);
-
-  // Analytics event tracking functions
-  const trackButtonClick = (buttonType: string, serviceName?: string) => {
-    if (analytics) {
-      logEvent(analytics, 'button_click', {
-        button_type: buttonType,
-        service_name: serviceName || 'unknown'
-      });
-    }
-  };
-
-  const trackScrollToSection = (sectionName: string) => {
-    if (analytics) {
-      logEvent(analytics, 'section_view', {
-        section_name: sectionName
-      });
-    }
-  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-white">
@@ -313,7 +292,7 @@ export default function Home() {
               <span className="text-blue-200">モバイルWi-Fi選び</span>
             </h1>
             <p className="text-xl md:text-2xl mb-8 text-blue-100">
-              16種類の人気ルーターを徹底比較！あなたにぴったりのWi-Fiが見つかります
+              16種類の人気サービスを徹底比較！あなたにぴったりのWi-Fiが見つかります
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <button 
@@ -640,35 +619,59 @@ export default function Home() {
             </div>
             
             <div>
-              <h4 className="font-semibold mb-4">フォローする</h4>
+              <h4 className="font-semibold mb-4">シェア・フォロー</h4>
               <div className="flex space-x-3">
                 <a 
-                  href="https://twitter.com/" 
+                  href="https://twitter.com/intent/tweet?text=モバイルWiFi比較ナビ%20-%2016サービス徹底比較&url=https://mobilewifihikaku.web.app&hashtags=モバイルWiFi,比較,ポケットWiFi" 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center hover:bg-blue-500 transition-colors"
-                  aria-label="Xをフォロー"
+                  aria-label="Xでシェア"
+                  title="Xでシェアする"
                 >
-                  <i className="ri-twitter-x-line"></i>
+                  <i className="ri-twitter-x-line text-white"></i>
                 </a>
                 <a 
-                  href="https://facebook.com/" 
+                  href="https://www.facebook.com/sharer/sharer.php?u=https://mobilewifihikaku.web.app" 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center hover:bg-blue-600 transition-colors"
-                  aria-label="Facebookをフォロー"
+                  aria-label="Facebookでシェア"
+                  title="Facebookでシェアする"
                 >
-                  <i className="ri-facebook-line"></i>
+                  <i className="ri-facebook-line text-white"></i>
                 </a>
                 <a 
-                  href="https://instagram.com/" 
+                  href="https://line.me/R/msg/text/?モバイルWiFi比較ナビ%20-%2016サービス徹底比較%20https://mobilewifihikaku.web.app" 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center hover:bg-pink-500 transition-colors"
-                  aria-label="Instagramをフォロー"
+                  className="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center hover:bg-green-500 transition-colors"
+                  aria-label="LINEでシェア"
+                  title="LINEでシェアする"
                 >
-                  <i className="ri-instagram-line"></i>
+                  <i className="ri-line-line text-white"></i>
                 </a>
+                <button
+                  onClick={() => {
+                    if (navigator.share) {
+                      navigator.share({
+                        title: 'モバイルWiFi比較ナビ - 16サービス徹底比較',
+                        text: 'モバイルWi-Fiサービス16種類を徹底比較！料金・契約期間・通信速度など詳細情報でピッタリのWi-Fiが見つかります。',
+                        url: 'https://mobilewifihikaku.web.app',
+                      });
+                    } else {
+                      // フォールバック：URLをクリップボードにコピー
+                      navigator.clipboard.writeText('https://mobilewifihikaku.web.app').then(() => {
+                        alert('URLをクリップボードにコピーしました！');
+                      });
+                    }
+                  }}
+                  className="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center hover:bg-gray-600 transition-colors"
+                  aria-label="共有"
+                  title="共有する"
+                >
+                  <i className="ri-share-line text-white"></i>
+                </button>
               </div>
             </div>
           </div>

@@ -6,21 +6,26 @@ const pacifico = Pacifico({
   weight: '400',
   subsets: ['latin'],
   display: 'swap',
+  preload: true,
   variable: '--font-pacifico',
 })
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
+  display: 'swap',
+  preload: true,
 });
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+  display: 'swap',
+  preload: true,
 });
 
 export const metadata: Metadata = {
-  title: "モバイルWiFi比較ナビ | 16機種徹底比較",
+  title: "モバイルWiFi比較ナビ | 16サービス徹底比較",
   description: "モバイルWi-Fiサービス16種類を徹底比較！料金・契約期間・通信速度など詳細情報でピッタリのWi-Fiが見つかります。ZEUS WiFi、クラウドWiFi、縛りなしWiFiなど人気サービス掲載。",
   keywords: "モバイルWiFi,ポケットWiFi,比較,料金,契約期間,通信速度,クラウドSIM,物理SIM",
   authors: [{ name: "モバイルWiFi比較ナビ" }],
@@ -36,7 +41,7 @@ export const metadata: Metadata = {
     canonical: "/",
   },
   openGraph: {
-    title: "モバイルWiFi比較ナビ | 16機種徹底比較",
+    title: "モバイルWiFi比較ナビ | 16サービス徹底比較",
     description: "モバイルWi-Fiサービス16種類を徹底比較！料金・契約期間・通信速度など詳細情報でピッタリのWi-Fiが見つかります。",
     url: process.env.NEXT_PUBLIC_SITE_URL || "https://mobilewifihikaku.web.app",
     siteName: "モバイルWiFi比較ナビ",
@@ -53,7 +58,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "モバイルWiFi比較ナビ | 16機種徹底比較",
+    title: "モバイルWiFi比較ナビ | 16サービス徹底比較",
     description: "モバイルWi-Fiサービス16種類を徹底比較！料金・契約期間・通信速度など詳細情報でピッタリのWi-Fiが見つかります。",
     images: ["/og-image.jpg"],
   },
@@ -81,8 +86,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning={true}>
+    <html lang="ja" suppressHydrationWarning={true}>
       <head>
+        <link
+          rel="preconnect"
+          href="https://cdn.jsdelivr.net"
+        />
         <link
           href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css"
           rel="stylesheet"
