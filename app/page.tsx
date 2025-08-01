@@ -265,7 +265,7 @@ export default function Home() {
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-2">
               <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
-                <i className="ri-router-line text-white text-lg"></i>
+                <i className="ri-wifi-line text-white text-lg"></i>
               </div>
               <h1 className="text-xl font-bold text-gray-800">モバイルWiFi比較ナビ</h1>
             </div>
@@ -325,7 +325,7 @@ export default function Home() {
             <div className="grid md:grid-cols-2 gap-8 mb-12">
               <div className="bg-blue-50 p-6 rounded-lg">
                 <div className="w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center mb-4">
-                  <i className="ri-router-line text-white text-2xl"></i>
+                  <i className="ri-wifi-line text-white text-2xl"></i>
                 </div>
                 <h3 className="text-xl font-semibold mb-3 text-gray-800">モバイルWi-Fiとは</h3>
                 <p className="text-gray-600 leading-relaxed">
@@ -653,7 +653,7 @@ export default function Home() {
             <div>
               <div className="flex items-center space-x-2 mb-4">
                 <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
-                  <i className="ri-router-line text-white text-lg"></i>
+                  <i className="ri-wifi-line text-white text-lg"></i>
                 </div>
                 <h3 className="text-xl font-bold">モバイルWiFi比較ナビ</h3>
               </div>
