@@ -43,5 +43,17 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'monthly',
       priority: 0.7,
     },
+    {
+      url: `${baseUrl}/articles/international-wifi`,
+      lastModified: new Date('2025-01-05'),
+      changeFrequency: 'monthly',
+      priority: 0.7,
+    },
+    {
+      url: `${baseUrl}/articles/no-contract-wifi`,
+      lastModified: new Date('2025-01-03'),
+      changeFrequency: 'monthly',
+      priority: 0.7,
+    },
   ]
 }
