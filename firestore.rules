@@ -1,0 +1,17 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // 全てのドキュメントに対して読み取り専用アクセスを許可
+    // 静的サイトなので書き込みは禁止
+    match /{document=**} {
+      allow read: if true;
+      allow write: if false; // 完全に書き込み禁止
+    }
+    
+    // アナリティクス用のコレクションがある場合（将来的に使用する可能性）
+    match /analytics/{document} {
+      allow read: if false; // 分析データは非公開
+      allow write: if false; // 現在は書き込み不要
+    }
+  }
+}

@@ -2,6 +2,7 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
 
 const wifiRouters = [
   {
@@ -264,13 +265,14 @@ export default function Home() {
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-2">
               <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
-                <i className="ri-wifi-line text-white text-lg"></i>
+                <i className="ri-router-line text-white text-lg"></i>
               </div>
               <h1 className="text-xl font-bold text-gray-800">モバイルWiFi比較ナビ</h1>
             </div>
             <nav className="hidden md:flex space-x-6">
               <a href="#comparison" className="text-gray-600 hover:text-blue-600 transition-colors">比較表</a>
               <a href="#products" className="text-gray-600 hover:text-blue-600 transition-colors">サービス一覧</a>
+              <Link href="/articles" className="text-gray-600 hover:text-blue-600 transition-colors">記事一覧</Link>
               <a href="#faq" className="text-gray-600 hover:text-blue-600 transition-colors">よくある質問</a>
             </nav>
           </div>
@@ -323,7 +325,7 @@ export default function Home() {
             <div className="grid md:grid-cols-2 gap-8 mb-12">
               <div className="bg-blue-50 p-6 rounded-lg">
                 <div className="w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center mb-4">
-                  <i className="ri-wifi-line text-white text-2xl"></i>
+                  <i className="ri-router-line text-white text-2xl"></i>
                 </div>
                 <h3 className="text-xl font-semibold mb-3 text-gray-800">モバイルWi-Fiとは</h3>
                 <p className="text-gray-600 leading-relaxed">
@@ -532,6 +534,64 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Articles Section */}
+      <section className="py-16 bg-white">
+        <div className="container mx-auto px-4">
+          <h2 className="text-3xl font-bold text-center mb-12 text-gray-800">
+            お役立ち記事
+          </h2>
+          
+          <div className="max-w-6xl mx-auto">
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+              <div className="bg-gradient-to-br from-blue-50 to-blue-100 p-6 rounded-lg hover:shadow-lg transition-shadow">
+                <div className="w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center mb-4">
+                  <i className="ri-book-line text-white text-xl"></i>
+                </div>
+                <h3 className="font-semibold mb-2 text-gray-800">初心者向けガイド</h3>
+                <p className="text-sm text-gray-600 mb-4">はじめてモバイルWiFiを選ぶ方向けの基本知識</p>
+                <Link href="/articles" className="text-blue-600 hover:text-blue-700 text-sm font-medium">記事を読む →</Link>
+              </div>
+              
+              <div className="bg-gradient-to-br from-green-50 to-green-100 p-6 rounded-lg hover:shadow-lg transition-shadow">
+                <div className="w-12 h-12 bg-green-600 rounded-lg flex items-center justify-center mb-4">
+                  <i className="ri-scales-line text-white text-xl"></i>
+                </div>
+                <h3 className="font-semibold mb-2 text-gray-800">SIM比較解説</h3>
+                <p className="text-sm text-gray-600 mb-4">クラウドSIMと物理SIMの違いを詳しく解説</p>
+                <Link href="/articles" className="text-green-600 hover:text-green-700 text-sm font-medium">記事を読む →</Link>
+              </div>
+              
+              <div className="bg-gradient-to-br from-purple-50 to-purple-100 p-6 rounded-lg hover:shadow-lg transition-shadow">
+                <div className="w-12 h-12 bg-purple-600 rounded-lg flex items-center justify-center mb-4">
+                  <i className="ri-hard-drive-line text-white text-xl"></i>
+                </div>
+                <h3 className="font-semibold mb-2 text-gray-800">容量別おすすめ</h3>
+                <p className="text-sm text-gray-600 mb-4">データ容量別におすすめサービスをご紹介</p>
+                <Link href="/articles" className="text-purple-600 hover:text-purple-700 text-sm font-medium">記事を読む →</Link>
+              </div>
+              
+              <div className="bg-gradient-to-br from-orange-50 to-orange-100 p-6 rounded-lg hover:shadow-lg transition-shadow">
+                <div className="w-12 h-12 bg-orange-600 rounded-lg flex items-center justify-center mb-4">
+                  <i className="ri-speed-line text-white text-xl"></i>
+                </div>
+                <h3 className="font-semibold mb-2 text-gray-800">速度向上テクニック</h3>
+                <p className="text-sm text-gray-600 mb-4">通信速度を向上させる方法とコツ</p>
+                <Link href="/articles" className="text-orange-600 hover:text-orange-700 text-sm font-medium">記事を読む →</Link>
+              </div>
+            </div>
+            
+            <div className="text-center mt-8">
+              <Link 
+                href="/articles"
+                className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-colors inline-block"
+              >
+                記事一覧を見る
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* FAQ Section */}
       <section id="faq" className="py-16 bg-gray-50">
         <div className="container mx-auto px-4">
@@ -593,7 +653,7 @@ export default function Home() {
             <div>
               <div className="flex items-center space-x-2 mb-4">
                 <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
-                  <i className="ri-wifi-line text-white text-lg"></i>
+                  <i className="ri-router-line text-white text-lg"></i>
                 </div>
                 <h3 className="text-xl font-bold">モバイルWiFi比較ナビ</h3>
               </div>
@@ -607,6 +667,7 @@ export default function Home() {
               <ul className="space-y-2 text-sm text-gray-400">
                 <li><a href="#comparison" className="hover:text-white transition-colors">比較表</a></li>
                 <li><a href="#products" className="hover:text-white transition-colors">サービス一覧</a></li>
+                <li><Link href="/articles" className="hover:text-white transition-colors">記事一覧</Link></li>
                 <li><a href="#guide" className="hover:text-white transition-colors">選び方ガイド</a></li>
               </ul>
             </div>

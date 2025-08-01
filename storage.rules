@@ -1,0 +1,10 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    // 静的ファイルの読み取りのみ許可
+    match /{allPaths=**} {
+      allow read: if true;
+      allow write: if false; // 静的サイトのため書き込み禁止
+    }
+  }
+}
