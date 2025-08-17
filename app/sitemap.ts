@@ -21,37 +21,37 @@ export default function sitemap(): MetadataRoute.Sitemap {
     // 記事ページを追加
     {
       url: `${baseUrl}/articles/beginner-guide`,
-      lastModified: new Date('2025-01-15'),
+      lastModified: new Date('2025-08-17'),
       changeFrequency: 'monthly',
       priority: 0.7,
     },
     {
       url: `${baseUrl}/articles/cloudsim-vs-physicalsim`,
-      lastModified: new Date('2025-01-12'),
+      lastModified: new Date('2025-08-17'),
       changeFrequency: 'monthly',
       priority: 0.7,
     },
     {
       url: `${baseUrl}/articles/data-capacity-comparison`,
-      lastModified: new Date('2025-01-10'),
+      lastModified: new Date('2025-08-17'),
       changeFrequency: 'monthly',
       priority: 0.7,
     },
     {
       url: `${baseUrl}/articles/speed-improvement-tips`,
-      lastModified: new Date('2025-01-08'),
+      lastModified: new Date('2025-08-17'),
       changeFrequency: 'monthly',
       priority: 0.7,
     },
     {
       url: `${baseUrl}/articles/international-wifi`,
-      lastModified: new Date('2025-01-05'),
+      lastModified: new Date('2025-08-17'),
       changeFrequency: 'monthly',
       priority: 0.7,
     },
     {
       url: `${baseUrl}/articles/no-contract-wifi`,
-      lastModified: new Date('2025-01-03'),
+      lastModified: new Date('2025-08-17'),
       changeFrequency: 'monthly',
       priority: 0.7,
     },
