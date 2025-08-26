@@ -4,6 +4,40 @@
 import { useState } from 'react';
 import Link from 'next/link';
 
+// --- helpers: affiliate rel and URL extraction ---
+const ensureSponsoredNofollow = (html: string) => {
+  // 1) If rel exists on first anchor, replace it; else inject
+  const withTarget = html.replace(/<a\b([^>]*?)>/i, (m, attrs) => {
+    // normalize rel
+    let newAttrs = attrs;
+    if (/\brel\s*=\s*"[^"]*"/i.test(newAttrs)) {
+      newAttrs = newAttrs.replace(/rel\s*=\s*"[^"]*"/i, 'rel="sponsored nofollow"');
+    } else {
+      newAttrs += ' rel="sponsored nofollow"';
+    }
+    // ensure target blank for external
+    if (!/\btarget\s*=\s*"_blank"/i.test(newAttrs)) {
+      newAttrs += ' target="_blank"';
+    }
+    // security noopener
+    if (!/\brel\s*=/.test(newAttrs)) {
+      newAttrs += ' rel="sponsored nofollow noopener"';
+    } else {
+      newAttrs = newAttrs.replace(/rel\s*=\s*"([^"]*)"/i, (_m: string, rel: string) => {
+        const parts = new Set<string>(rel.split(/\s+/).concat(['sponsored','nofollow','noopener']));
+        return `rel="${Array.from(parts).join(' ')}"`;
+      });
+    }
+    return `<a${newAttrs}>`;
+  });
+  return withTarget;
+};
+
+const extractFirstHref = (html: string): string | null => {
+  const m = html.match(/<a[^>]*href=\"([^\"]+)\"/i);
+  return m ? m[1] : null;
+};
+
 const wifiRouters = [
   {
     id: 1,
@@ -259,6 +293,75 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-white">
+      {/* JSON-LD: ItemList, FAQPage, BreadcrumbList, Products with Offers */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'ItemList',
+            name: 'モバイルWiFiサービス比較一覧',
+            itemListElement: wifiRouters.map((r, i) => ({
+              '@type': 'ListItem',
+              position: i + 1,
+              name: r.name,
+              url: 'https://mobilewifihikaku.web.app/#products'
+            }))
+          })
+        }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'FAQPage',
+            mainEntity: (Array.isArray(faqs) ? faqs : []).map(f => ({
+              '@type': 'Question',
+              name: f.question,
+              acceptedAnswer: { '@type': 'Answer', text: f.answer },
+            }))
+          })
+        }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'BreadcrumbList',
+            itemListElement: [
+              { '@type': 'ListItem', position: 1, name: 'ホーム', item: 'https://mobilewifihikaku.web.app' }
+            ],
+          })
+        }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(
+            wifiRouters.map(r => {
+              const href = extractFirstHref(r.detailLink) || 'https://mobilewifihikaku.web.app';
+              const priceNum = Number((r.price || '').replace(/[^0-9.]/g, '')) || undefined;
+              return {
+                '@context': 'https://schema.org',
+                '@type': 'Product',
+                name: r.name,
+                category: 'Portable WiFi',
+                brand: { '@type': 'Brand', name: r.name.split(' ')[0] },
+                description: `${r.type} / ${r.contractPeriod} / ${r.speed}`,
+                offers: priceNum ? {
+                  '@type': 'Offer',
+                  priceCurrency: 'JPY',
+                  price: priceNum,
+                  url: href,
+                  availability: 'https://schema.org/InStock'
+                } : undefined
+              };
+            })
+          )
+        }}
+      />
       {/* Header */}
       <header className="bg-white shadow-sm">
         <div className="container mx-auto px-4 py-4">
@@ -446,7 +549,7 @@ export default function Home() {
                 <div className="p-6 flex flex-col flex-grow">
                   <div 
                     className="w-full h-48 mb-6 flex items-center justify-center bg-gray-50 rounded-lg"
-                    dangerouslySetInnerHTML={{ __html: router.adLink }}
+                    dangerouslySetInnerHTML={{ __html: ensureSponsoredNofollow(router.adLink) }}
                   />
                   <h3 className="text-xl font-semibold mb-4 text-gray-800">{router.name}</h3>
                   <div className="flex items-center justify-between mb-4">
@@ -504,7 +607,7 @@ export default function Home() {
                   </div>
 
                   <div 
-                    dangerouslySetInnerHTML={{ __html: router.detailLink.replace(/>(.*?)<\/a>/, '>詳細はこちら</a>') }}
+                    dangerouslySetInnerHTML={{ __html: ensureSponsoredNofollow(router.detailLink.replace(/>(.*?)<\/a>/, '>詳細はこちら</a>')) }}
                     className="w-full bg-orange-500 hover:bg-orange-600 text-white py-3 rounded-lg font-semibold transition-colors whitespace-nowrap cursor-pointer text-center block mt-auto"
                     style={{
                       textDecoration: 'none'
