@@ -814,6 +814,8 @@ export default function Home() {
               <h4 className="font-semibold mb-4">サポート</h4>
               <ul className="space-y-2 text-sm text-gray-400">
                 <li><a href="#faq" className="hover:text-white transition-colors">よくある質問</a></li>
+                <li><Link href="/about" className="hover:text-white transition-colors">当サイトについて</Link></li>
+                <li><Link href="/privacy" className="hover:text-white transition-colors">プライバシーポリシー</Link></li>
               </ul>
             </div>
             
