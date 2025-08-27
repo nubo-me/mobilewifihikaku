@@ -15,6 +15,36 @@ export const metadata: Metadata = {
 export default function NoContractWifiPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 to-white">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Article",
+            "headline": "契約縛りなしモバイルWiFi完全ガイド",
+            "description": "契約期間の縛りがないモバイルWiFiサービスを徹底比較。短期利用や試用にも最適な選び方とおすすめランキング",
+            "datePublished": "2025-01-05",
+            "dateModified": "2025-01-05",
+            "inLanguage": "ja-JP",
+            "mainEntityOfPage": {"@type": "WebPage", "@id": "https://mobilewifihikaku.web.app/articles/no-contract-wifi"},
+            "publisher": {"@type": "Organization", "name": "モバイルWiFi比較ナビ", "logo": {"@type": "ImageObject", "url": "https://mobilewifihikaku.web.app/og-image.jpg"}}
+          })
+        }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              {"@type": "ListItem", "position": 1, "name": "ホーム", "item": "https://mobilewifihikaku.web.app/"},
+              {"@type": "ListItem", "position": 2, "name": "記事一覧", "item": "https://mobilewifihikaku.web.app/articles"},
+              {"@type": "ListItem", "position": 3, "name": "契約縛りなしWiFi", "item": "https://mobilewifihikaku.web.app/articles/no-contract-wifi"}
+            ]
+          })
+        }}
+      />
       {/* Header */}
       <header className="bg-white shadow-sm">
         <div className="container mx-auto px-4 py-4">

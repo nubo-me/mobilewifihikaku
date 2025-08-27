@@ -15,6 +15,36 @@ export const metadata: Metadata = {
 export default function InternationalWiFiPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-white">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Article",
+            "headline": "海外で使えるモバイルWiFi徹底比較【2025年最新】",
+            "description": "海外旅行や出張で使えるモバイルWiFiサービスを徹底比較。料金、対応国数、通信速度など詳細",
+            "datePublished": "2025-01-03",
+            "dateModified": "2025-01-03",
+            "inLanguage": "ja-JP",
+            "mainEntityOfPage": {"@type": "WebPage", "@id": "https://mobilewifihikaku.web.app/articles/international-wifi"},
+            "publisher": {"@type": "Organization", "name": "モバイルWiFi比較ナビ", "logo": {"@type": "ImageObject", "url": "https://mobilewifihikaku.web.app/og-image.jpg"}}
+          })
+        }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              {"@type": "ListItem", "position": 1, "name": "ホーム", "item": "https://mobilewifihikaku.web.app/"},
+              {"@type": "ListItem", "position": 2, "name": "記事一覧", "item": "https://mobilewifihikaku.web.app/articles"},
+              {"@type": "ListItem", "position": 3, "name": "海外で使えるモバイルWiFi", "item": "https://mobilewifihikaku.web.app/articles/international-wifi"}
+            ]
+          })
+        }}
+      />
       {/* Header */}
       <header className="bg-white shadow-sm">
         <div className="container mx-auto px-4 py-4">

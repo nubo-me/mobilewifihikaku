@@ -15,6 +15,36 @@ export const metadata: Metadata = {
 export default function SpeedImprovementTipsPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-white">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Article",
+            "headline": "モバイルWiFiの通信速度を向上させる方法【完全版】",
+            "description": "モバイルWiFiの通信速度が遅い時の原因と対処法を詳しく解説。設置場所の最適化から端末設定まで実践的テクニック",
+            "datePublished": "2025-01-08",
+            "dateModified": "2025-01-08",
+            "inLanguage": "ja-JP",
+            "mainEntityOfPage": {"@type": "WebPage", "@id": "https://mobilewifihikaku.web.app/articles/speed-improvement-tips"},
+            "publisher": {"@type": "Organization", "name": "モバイルWiFi比較ナビ", "logo": {"@type": "ImageObject", "url": "https://mobilewifihikaku.web.app/og-image.jpg"}}
+          })
+        }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              {"@type": "ListItem", "position": 1, "name": "ホーム", "item": "https://mobilewifihikaku.web.app/"},
+              {"@type": "ListItem", "position": 2, "name": "記事一覧", "item": "https://mobilewifihikaku.web.app/articles"},
+              {"@type": "ListItem", "position": 3, "name": "通信速度向上テクニック", "item": "https://mobilewifihikaku.web.app/articles/speed-improvement-tips"}
+            ]
+          })
+        }}
+      />
       {/* Header */}
       <header className="bg-white shadow-sm">
         <div className="container mx-auto px-4 py-4">

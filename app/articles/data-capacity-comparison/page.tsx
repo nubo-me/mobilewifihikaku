@@ -15,6 +15,36 @@ export const metadata: Metadata = {
 export default function DataCapacityComparisonPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-white">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Article",
+            "headline": "データ容量別おすすめモバイルWiFi【2025年最新】",
+            "description": "データ容量別におすすめのモバイルWiFiサービスを徹底比較。10GB、20GB、50GB、無制限プランの料金相場、使用量目安、最適選び",
+            "datePublished": "2025-01-10",
+            "dateModified": "2025-01-10",
+            "inLanguage": "ja-JP",
+            "mainEntityOfPage": {"@type": "WebPage", "@id": "https://mobilewifihikaku.web.app/articles/data-capacity-comparison"},
+            "publisher": {"@type": "Organization", "name": "モバイルWiFi比較ナビ", "logo": {"@type": "ImageObject", "url": "https://mobilewifihikaku.web.app/og-image.jpg"}}
+          })
+        }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              {"@type": "ListItem", "position": 1, "name": "ホーム", "item": "https://mobilewifihikaku.web.app/"},
+              {"@type": "ListItem", "position": 2, "name": "記事一覧", "item": "https://mobilewifihikaku.web.app/articles"},
+              {"@type": "ListItem", "position": 3, "name": "データ容量別おすすめ", "item": "https://mobilewifihikaku.web.app/articles/data-capacity-comparison"}
+            ]
+          })
+        }}
+      />
       {/* Header */}
       <header className="bg-white shadow-sm">
         <div className="container mx-auto px-4 py-4">

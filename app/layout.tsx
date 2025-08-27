@@ -100,6 +100,22 @@ export default function RootLayout({
           href="/og-image.jpg"
           fetchPriority="high"
         />
+        {/* Organization JSON-LD */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Organization",
+              "name": "モバイルWiFi比較ナビ",
+              "url": "https://mobilewifihikaku.web.app",
+              "logo": {
+                "@type": "ImageObject",
+                "url": "https://mobilewifihikaku.web.app/og-image.jpg"
+              }
+            })
+          }}
+        />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{

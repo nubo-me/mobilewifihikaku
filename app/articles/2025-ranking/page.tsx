@@ -61,6 +61,46 @@ export default function Ranking2025Page() {
             { label: '2025年ランキング' }
           ]} 
         />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Article",
+              "headline": "【2025年最新】モバイルWiFiおすすめランキング",
+              "description": "2025年最新のモバイルWiFiサービスを料金、通信速度、契約期間、データ容量で総合的に評価しランキング形式で紹介",
+              "datePublished": "2025-08-17",
+              "dateModified": "2025-08-17",
+              "inLanguage": "ja-JP",
+              "mainEntityOfPage": {
+                "@type": "WebPage",
+                "@id": "https://mobilewifihikaku.web.app/articles/2025-ranking"
+              },
+              "publisher": {
+                "@type": "Organization",
+                "name": "モバイルWiFi比較ナビ",
+                "logo": {
+                  "@type": "ImageObject",
+                  "url": "https://mobilewifihikaku.web.app/og-image.jpg"
+                }
+              }
+            })
+          }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "BreadcrumbList",
+              "itemListElement": [
+                {"@type": "ListItem", "position": 1, "name": "ホーム", "item": "https://mobilewifihikaku.web.app/"},
+                {"@type": "ListItem", "position": 2, "name": "記事一覧", "item": "https://mobilewifihikaku.web.app/articles"},
+                {"@type": "ListItem", "position": 3, "name": "2025年ランキング", "item": "https://mobilewifihikaku.web.app/articles/2025-ranking"}
+              ]
+            })
+          }}
+        />
         
         <article className="max-w-4xl mx-auto bg-white rounded-lg shadow-lg p-8">
           <header className="mb-8">

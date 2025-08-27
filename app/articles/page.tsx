@@ -94,6 +94,29 @@ const categories = [
 export default function ArticlesPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-white">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "CollectionPage",
+            "name": "モバイルWiFi記事一覧",
+            "url": "https://mobilewifihikaku.web.app/articles",
+            "mainEntity": {
+              "@type": "ItemList",
+              "itemListElement": [
+                {"@type": "ListItem", "position": 1, "name": "初心者向け完全ガイド", "url": "https://mobilewifihikaku.web.app/articles/beginner-guide"},
+                {"@type": "ListItem", "position": 2, "name": "クラウドSIMと物理SIMの違い", "url": "https://mobilewifihikaku.web.app/articles/cloudsim-vs-physicalsim"},
+                {"@type": "ListItem", "position": 3, "name": "データ容量別おすすめ", "url": "https://mobilewifihikaku.web.app/articles/data-capacity-comparison"},
+                {"@type": "ListItem", "position": 4, "name": "通信速度を向上させる方法", "url": "https://mobilewifihikaku.web.app/articles/speed-improvement-tips"},
+                {"@type": "ListItem", "position": 5, "name": "契約縛りなしモバイルWiFi", "url": "https://mobilewifihikaku.web.app/articles/no-contract-wifi"},
+                {"@type": "ListItem", "position": 6, "name": "海外で使えるモバイルWiFi", "url": "https://mobilewifihikaku.web.app/articles/international-wifi"},
+                {"@type": "ListItem", "position": 7, "name": "2025年ランキング", "url": "https://mobilewifihikaku.web.app/articles/2025-ranking"}
+              ]
+            }
+          })
+        }}
+      />
       {/* Header */}
       <header className="bg-white shadow-sm">
         <div className="container mx-auto px-4 py-4">

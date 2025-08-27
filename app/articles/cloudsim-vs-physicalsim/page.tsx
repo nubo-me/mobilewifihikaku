@@ -9,6 +9,36 @@ export const metadata: Metadata = {
 export default function CloudSimVsPhysicalSimPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-white">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Article",
+            "headline": "クラウドSIM vs 物理SIM 徹底比較",
+            "description": "クラウドSIMと物理SIMの違いを詳しく解説。それぞれのメリット・デメリットと選び方のポイント",
+            "datePublished": "2025-01-12",
+            "dateModified": "2025-01-12",
+            "inLanguage": "ja-JP",
+            "mainEntityOfPage": {"@type": "WebPage", "@id": "https://mobilewifihikaku.web.app/articles/cloudsim-vs-physicalsim"},
+            "publisher": {"@type": "Organization", "name": "モバイルWiFi比較ナビ", "logo": {"@type": "ImageObject", "url": "https://mobilewifihikaku.web.app/og-image.jpg"}}
+          })
+        }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              {"@type": "ListItem", "position": 1, "name": "ホーム", "item": "https://mobilewifihikaku.web.app/"},
+              {"@type": "ListItem", "position": 2, "name": "記事一覧", "item": "https://mobilewifihikaku.web.app/articles"},
+              {"@type": "ListItem", "position": 3, "name": "クラウドSIM vs 物理SIM", "item": "https://mobilewifihikaku.web.app/articles/cloudsim-vs-physicalsim"}
+            ]
+          })
+        }}
+      />
       {/* Header */}
       <header className="bg-white shadow-sm">
         <div className="container mx-auto px-4 py-4">
