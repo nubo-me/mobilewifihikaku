@@ -1,7 +1,6 @@
-
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 
 // --- helpers: affiliate rel and URL extraction ---
@@ -75,7 +74,7 @@ const wifiRouters = [
     speed: '下り最大150Mbps',
     type: '物理SIM',
     features: ['即日利用開始', '全国エリア対応', '24時間サポート'],
-    pros: ['申込み簡単', '即日開通', '縛りなし'],
+    pros: ['申し込み簡単', '即日開通', '縛りなし'],
     cons: ['料金やや高め', '端末選択肢少ない'],
     recommendedFor: '急ぎでWi-Fi必要な方',
     adLink: '<a href="https://px.a8.net/svt/ejp?a8mat=459MVI+4RGV02+4UUG+HVNAP" rel="nofollow"><img border="0" width="300" height="250" alt="" src="https://www25.a8.net/svt/bgt?aid=250712334288&wid=001&eno=01&mid=s00000022660003003000&mc=1"></a><img border="0" width="1" height="1" src="https://www18.a8.net/0.gif?a8mat=459MVI+4RGV02+4UUG+HVNAP" alt="">',
@@ -247,7 +246,7 @@ const wifiRouters = [
     cons: ['契約期間あり', '解約金あり'],
     recommendedFor: '大容量ユーザー',
     adLink: '<a href="https://px.a8.net/svt/ejp?a8mat=459MVI+432376+348K+3YXBHD" rel="nofollow"><img border="0" width="300" height="250" alt="" src="https://www24.a8.net/svt/bgt?aid=250712334247&wid=001&eno=01&mid=s00000014546024006000&mc=1"></a><img border="0" width="1" height="1" src="https://www18.a8.net/0.gif?a8mat=459MVI+432376+348K+3YXBHD" alt="">',
-    detailLink: '<a href="https://px.a8.net/svt/ejp?a8mat=459MVI+432376+348K+3YW8WI" rel="nofollow">モンスターモバイル</a><img border="0" width="1" height="1" src="https://www13.a8.net/0.gif?a8mat=459MVI+432376+348K+3YW8WI" alt="">'
+    detailLink: '<a href="https://px.a8.net/svt/ejp?a8mat=459MVI+432376+348K+3YW8WI" rel="nofollow">モンスター モバイル</a><img border="0" width="1" height="1" src="https://www13.a8.net/0.gif?a8mat=459MVI+432376+348K+3YW8WI" alt="">'
   },
   {
     id: 16,
@@ -290,6 +289,34 @@ const faqs = [
 
 export default function Home() {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
+
+  // 広告(A8等)の遅延挿入: 画面に入ったらdata-ad-htmlから復元
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const slots = Array.from(document.querySelectorAll<HTMLElement>('.ad-slot[data-ad-loaded="false"]'));
+    if (slots.length === 0) return;
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const el = entry.target as HTMLElement;
+            const encoded = el.getAttribute('data-ad-html');
+            if (encoded) {
+              try {
+                const html = decodeURIComponent(encoded);
+                el.innerHTML = html;
+                el.setAttribute('data-ad-loaded', 'true');
+              } catch {}
+            }
+            io.unobserve(el);
+          }
+        });
+      },
+      { rootMargin: '200px 0px', threshold: 0.1 }
+    );
+    slots.forEach((el) => io.observe(el));
+    return () => io.disconnect();
+  }, []);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-white">
@@ -384,12 +411,17 @@ export default function Home() {
 
       {/* Hero Section */}
       <section className="relative py-20 bg-gradient-to-r from-blue-600 to-blue-700 text-white overflow-hidden">
-        <div 
-          className="absolute inset-0 bg-cover bg-center opacity-20"
-          style={{
-            backgroundImage: "url('https://readdy.ai/api/search-image?query=Modern%20office%20workspace%20with%20WiFi%20connectivity%20symbols%2C%20wireless%20network%20visualization%2C%20clean%20professional%20environment%2C%20blue%20technology%20theme%2C%20digital%20connectivity%20concept%2C%20futuristic%20atmosphere%2C%20high-tech%20background%20elements&width=1200&height=600&seq=hero1&orientation=landscape')"
-          }}
-        ></div>
+        {/* LCP候補のヒーロー画像（固定サイズ・高優先度） */}
+        <img
+          srcSet="/og-image.jpg 1x, /og-image.jpg 2x"
+          src="/og-image.jpg"
+          width={1200}
+          height={630}
+          alt="モバイルWiFi比較ナビのイメージ"
+          className="absolute inset-0 w-full h-full object-cover opacity-20"
+          decoding="async"
+          fetchPriority="high"
+        />
         <div className="container mx-auto px-4 relative z-10">
           <div className="max-w-4xl mx-auto text-center">
             <h1 className="text-4xl md:text-5xl font-bold mb-6">
@@ -451,7 +483,7 @@ export default function Home() {
 
             <div className="bg-gradient-to-r from-blue-600 to-blue-700 p-8 rounded-lg text-white">
               <h3 className="text-2xl font-semibold mb-6 text-center">選び方の3つのポイント</h3>
-                                          <div className="grid md:grid-cols-3 gap-6">
+              <div className="grid md:grid-cols-3 gap-6">
                 <div className="text-center">
                   <div className="w-16 h-16 bg-white bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-4">
                     <i className="ri-bank-card-line text-3xl"></i>
@@ -547,10 +579,13 @@ export default function Home() {
             {wifiRouters.map((router) => (
               <div key={router.id} className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow flex flex-col h-full">
                 <div className="p-6 flex flex-col flex-grow">
-                  <div 
-                    className="w-full h-48 mb-6 flex items-center justify-center bg-gray-50 rounded-lg"
-                    dangerouslySetInnerHTML={{ __html: ensureSponsoredNofollow(router.adLink) }}
-                  />
+                  <div
+                    className="w-full h-48 mb-6 flex items-center justify-center bg-gray-50 rounded-lg ad-slot"
+                    data-ad-loaded="false"
+                    data-ad-html={encodeURIComponent(ensureSponsoredNofollow(router.adLink))}
+                  >
+                    <span className="text-gray-400 text-sm">広告読み込み中...</span>
+                  </div>
                   <h3 className="text-xl font-semibold mb-4 text-gray-800">{router.name}</h3>
                   <div className="flex items-center justify-between mb-4">
                     <span className="text-2xl font-bold text-blue-600">{router.price}</span>

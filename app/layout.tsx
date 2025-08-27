@@ -93,6 +93,13 @@ export default function RootLayout({
   return (
     <html lang="ja" suppressHydrationWarning={true}>
       <head>
+        {/* Preload LCP hero image (JPG) */}
+        <link
+          rel="preload"
+          as="image"
+          href="/og-image.jpg"
+          fetchPriority="high"
+        />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
