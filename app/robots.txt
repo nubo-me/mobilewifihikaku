@@ -1,4 +1,15 @@
 User-agent: *
 Allow: /
 
+# 重要なページを優先クロール
+Crawl-delay: 1
+
+# サイトマップの場所
 Sitemap: https://mobilewifihikaku.web.app/sitemap.xml
+
+# 重要なページ（検索エンジン向けヒント）
+# Allow: /articles/smartphone-data-saving
+# Allow: /articles/sns-mobile-wifi
+# Allow: /articles/student-mobile-wifi
+# Allow: /articles/housewife-mobile-wifi
+# Allow: /articles/senior-mobile-wifi

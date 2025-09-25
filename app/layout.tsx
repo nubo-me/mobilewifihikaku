@@ -93,11 +93,13 @@ export default function RootLayout({
   return (
     <html lang="ja" suppressHydrationWarning={true}>
       <head>
-        {/* Preload LCP hero image (JPG) */}
+        {/* Google AdSense site verification */}
+        <meta name="google-adsense-account" content="ca-pub-4321998223277477" />
+        {/* Preload LCP hero image (SVG) */}
         <link
           rel="preload"
           as="image"
-          href="/og-image.jpg"
+          href="/hero-gradient.svg"
           fetchPriority="high"
         />
         {/* Organization JSON-LD */}

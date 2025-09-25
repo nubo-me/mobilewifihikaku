@@ -411,16 +411,18 @@ export default function Home() {
 
       {/* Hero Section */}
       <section className="relative py-20 bg-gradient-to-r from-blue-600 to-blue-700 text-white overflow-hidden">
-        {/* LCP候補のヒーロー画像（固定サイズ・高優先度） */}
+        {/* ヒーロー背景（装飾用）: SVGグラデーションに変更し、altを空にして代替テキストの表示を抑止 */}
         <img
-          srcSet="/og-image.jpg 1x, /og-image.jpg 2x"
-          src="/og-image.jpg"
+          src="/hero-gradient.svg"
           width={1200}
           height={630}
-          alt="モバイルWiFi比較ナビのイメージ"
-          className="absolute inset-0 w-full h-full object-cover opacity-20"
+          alt=""
+          aria-hidden="true"
+          role="presentation"
+          className="absolute inset-0 w-full h-full object-cover opacity-40 pointer-events-none z-0"
           decoding="async"
           fetchPriority="high"
+          onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }}
         />
         <div className="container mx-auto px-4 relative z-10">
           <div className="max-w-4xl mx-auto text-center">
@@ -681,40 +683,40 @@ export default function Home() {
           
           <div className="max-w-6xl mx-auto">
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-              <div className="bg-gradient-to-br from-blue-50 to-blue-100 p-6 rounded-lg hover:shadow-lg transition-shadow">
-                <div className="w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center mb-4">
-                  <i className="ri-book-line text-white text-xl"></i>
-                </div>
-                <h3 className="font-semibold mb-2 text-gray-800">初心者向けガイド</h3>
-                <p className="text-sm text-gray-600 mb-4">はじめてモバイルWiFiを選ぶ方向けの基本知識</p>
-                <Link href="/articles" className="text-blue-600 hover:text-blue-700 text-sm font-medium">記事を読む →</Link>
-              </div>
-              
               <div className="bg-gradient-to-br from-green-50 to-green-100 p-6 rounded-lg hover:shadow-lg transition-shadow">
                 <div className="w-12 h-12 bg-green-600 rounded-lg flex items-center justify-center mb-4">
-                  <i className="ri-scales-line text-white text-xl"></i>
+                  <span className="text-white text-xl">📱</span>
                 </div>
-                <h3 className="font-semibold mb-2 text-gray-800">SIM比較解説</h3>
-                <p className="text-sm text-gray-600 mb-4">クラウドSIMと物理SIMの違いを詳しく解説</p>
-                <Link href="/articles" className="text-green-600 hover:text-green-700 text-sm font-medium">記事を読む →</Link>
+                <h3 className="font-semibold mb-2 text-gray-800">スマホのギガ不足解決</h3>
+                <p className="text-sm text-gray-600 mb-4">通信制限で困っている方必見！データ節約術とモバイルWiFi活用法</p>
+                <Link href="/articles/smartphone-data-saving" className="text-green-600 hover:text-green-700 text-sm font-medium">記事を読む →</Link>
+              </div>
+              
+              <div className="bg-gradient-to-br from-pink-50 to-pink-100 p-6 rounded-lg hover:shadow-lg transition-shadow">
+                <div className="w-12 h-12 bg-pink-600 rounded-lg flex items-center justify-center mb-4">
+                  <span className="text-white text-xl">📸</span>
+                </div>
+                <h3 className="font-semibold mb-2 text-gray-800">SNS・動画好き必見</h3>
+                <p className="text-sm text-gray-600 mb-4">TikTok・Instagram・YouTubeを思う存分楽しむ方法</p>
+                <Link href="/articles/sns-mobile-wifi" className="text-pink-600 hover:text-pink-700 text-sm font-medium">記事を読む →</Link>
+              </div>
+              
+              <div className="bg-gradient-to-br from-blue-50 to-blue-100 p-6 rounded-lg hover:shadow-lg transition-shadow">
+                <div className="w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center mb-4">
+                  <span className="text-white text-xl">🎓</span>
+                </div>
+                <h3 className="font-semibold mb-2 text-gray-800">大学生向け特集</h3>
+                <p className="text-sm text-gray-600 mb-4">学生にやさしい料金！オンライン授業も動画も思う存分</p>
+                <Link href="/articles/student-mobile-wifi" className="text-blue-600 hover:text-blue-700 text-sm font-medium">記事を読む →</Link>
               </div>
               
               <div className="bg-gradient-to-br from-purple-50 to-purple-100 p-6 rounded-lg hover:shadow-lg transition-shadow">
                 <div className="w-12 h-12 bg-purple-600 rounded-lg flex items-center justify-center mb-4">
-                  <i className="ri-hard-drive-line text-white text-xl"></i>
+                  <span className="text-white text-xl">🏡</span>
                 </div>
-                <h3 className="font-semibold mb-2 text-gray-800">容量別おすすめ</h3>
-                <p className="text-sm text-gray-600 mb-4">データ容量別におすすめサービスをご紹介</p>
-                <Link href="/articles" className="text-purple-600 hover:text-purple-700 text-sm font-medium">記事を読む →</Link>
-              </div>
-              
-              <div className="bg-gradient-to-br from-orange-50 to-orange-100 p-6 rounded-lg hover:shadow-lg transition-shadow">
-                <div className="w-12 h-12 bg-orange-600 rounded-lg flex items-center justify-center mb-4">
-                  <i className="ri-speed-line text-white text-xl"></i>
-                </div>
-                <h3 className="font-semibold mb-2 text-gray-800">速度向上テクニック</h3>
-                <p className="text-sm text-gray-600 mb-4">通信速度を向上させる方法とコツ</p>
-                <Link href="/articles" className="text-orange-600 hover:text-orange-700 text-sm font-medium">記事を読む →</Link>
+                <h3 className="font-semibold mb-2 text-gray-800">在宅ワーク・主婦向け</h3>
+                <p className="text-sm text-gray-600 mb-4">工事不要で即日開始！家計にやさしいプランをご紹介</p>
+                <Link href="/articles/housewife-mobile-wifi" className="text-purple-600 hover:text-purple-700 text-sm font-medium">記事を読む →</Link>
               </div>
             </div>
             
