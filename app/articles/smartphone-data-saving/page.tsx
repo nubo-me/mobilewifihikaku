@@ -2,6 +2,31 @@ import Link from 'next/link';
 import type { Metadata } from "next";
 import RelatedArticles from '../../components/RelatedArticles';
 
+import { LastUpdated } from "../../components/LastUpdated";
+
+const lastUpdated = "2025-01-20";
+
+const articleLd = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  headline: "スマホのデータ容量不足を解決！モバイルWiFi活用術",
+  description: "スマホのギガ不足・通信制限の解決方法とモバイルWiFi活用術を詳しく解説",
+  datePublished: "2025-01-20",
+  dateModified: lastUpdated,
+  author: {
+    "@type": "Organization",
+    name: "モバイルWiFi比較ナビ",
+  },
+  publisher: {
+    "@type": "Organization",
+    name: "モバイルWiFi比較ナビ",
+    logo: {
+      "@type": "ImageObject",
+      url: "https://mobilewifihikaku.web.app/og-image.jpg",
+    },
+  },
+};
+
 export const metadata: Metadata = {
   title: "スマホのデータ容量不足を解決！モバイルWiFi活用術【2025年版】",
   description: "スマホのギガ不足・通信制限にお悩みの方必見！モバイルWiFiを使ったデータ容量節約術とおすすめサービスを紹介。月末の速度制限とはもうおさらば！",
@@ -23,26 +48,7 @@ export default function SmartphoneDataSavingPage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "Article",
-            "headline": "スマホのデータ容量不足を解決！モバイルWiFi活用術",
-            "description": "スマホのギガ不足・通信制限の解決方法とモバイルWiFi活用術を詳しく解説",
-            "datePublished": "2025-01-20",
-            "dateModified": "2025-01-20",
-            "author": {
-              "@type": "Organization",
-              "name": "モバイルWiFi比較ナビ"
-            },
-            "publisher": {
-              "@type": "Organization",
-              "name": "モバイルWiFi比較ナビ",
-              "logo": {
-                "@type": "ImageObject",
-                "url": "https://mobilewifihikaku.web.app/og-image.jpg"
-              }
-            }
-          })
+          __html: JSON.stringify(articleLd),
         }}
       />
 
@@ -77,6 +83,7 @@ export default function SmartphoneDataSavingPage() {
               月末の通信制限にお悩みの方必見！<br className="md:hidden" />
               モバイルWiFiでギガ不足を賢く解決しましょう
             </p>
+            <LastUpdated date={lastUpdated} className="mt-4 justify-center" />
           </div>
 
           {/* 悩みあるある */}

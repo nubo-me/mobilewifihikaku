@@ -1,6 +1,8 @@
 import Link from 'next/link';
 import type { Metadata } from "next";
 
+import { LastUpdated } from '@/app/components/LastUpdated';
+
 export const metadata: Metadata = {
   title: "在宅ワーク・主婦におすすめのモバイルWiFi【2025年】家庭用プラン比較",
   description: "在宅ワークや家事の合間に使いやすいモバイルWiFiを厳選。工事不要で即日開始、家計にやさしい料金プランをご紹介。子育て中の方にも安心です。",
@@ -15,25 +17,29 @@ export const metadata: Metadata = {
   },
 };
 
+const lastUpdated = '2025-01-25';
+
 export default function HousewifeMobileWifiPage() {
+  const articleLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: '在宅ワーク・主婦におすすめのモバイルWiFi【2025年】家庭用プラン比較',
+    description: '在宅ワークや家庭での利用に最適なモバイルWiFiプランの選び方と比較',
+    datePublished: lastUpdated,
+    dateModified: lastUpdated,
+    author: {
+      '@type': 'Organization',
+      name: 'モバイルWiFi比較ナビ',
+    },
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-pink-50 via-white to-purple-50">
       {/* JSON-LD構造化データ */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "Article",
-            "headline": "在宅ワーク・主婦におすすめのモバイルWiFi【2025年】家庭用プラン比較",
-            "description": "在宅ワークや家庭での利用に最適なモバイルWiFiプランの選び方と比較",
-            "datePublished": "2025-01-25",
-            "dateModified": "2025-01-25",
-            "author": {
-              "@type": "Organization",
-              "name": "モバイルWiFi比較ナビ"
-            }
-          })
+          __html: JSON.stringify(articleLd)
         }}
       />
 
@@ -69,6 +75,9 @@ export default function HousewifeMobileWifiPage() {
               工事不要で今すぐ始められる！<br className="md:hidden" />
               家計にやさしいプランをご紹介
             </p>
+            <div className="flex justify-center mt-4">
+              <LastUpdated date={lastUpdated} />
+            </div>
           </div>
 
           {/* 在宅ワーク・主婦の悩み */}

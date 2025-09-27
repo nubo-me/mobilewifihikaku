@@ -1,49 +1,57 @@
 import Link from 'next/link';
 import { Metadata } from 'next';
 
+import { LastUpdated } from '@/app/components/LastUpdated';
+
 export const metadata: Metadata = {
   title: 'モバイルWi-Fi初心者向けガイド | モバイルWiFi比較ナビ',
   description: 'はじめてモバイルWi-Fiを選ぶ方向けの基本知識とおすすめサービスをわかりやすく解説します。',
 };
 
+const lastUpdated = '2025-01-15';
+
 export default function BeginnerGuidePage() {
+  const articleLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: 'モバイルWi-Fi初心者向けガイド',
+    description: 'はじめてモバイルWi-Fiを選ぶ方向けの基本知識とおすすめサービスをわかりやすく解説',
+    datePublished: lastUpdated,
+    dateModified: lastUpdated,
+    inLanguage: 'ja-JP',
+    mainEntityOfPage: {
+      '@type': 'WebPage',
+      '@id': 'https://mobilewifihikaku.web.app/articles/beginner-guide',
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: 'モバイルWiFi比較ナビ',
+      logo: { '@type': 'ImageObject', url: 'https://mobilewifihikaku.web.app/og-image.jpg' },
+    },
+  };
+
+  const breadcrumbLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'ホーム', item: 'https://mobilewifihikaku.web.app/' },
+      { '@type': 'ListItem', position: 2, name: '記事一覧', item: 'https://mobilewifihikaku.web.app/articles' },
+      { '@type': 'ListItem', position: 3, name: '初心者向けガイド', item: 'https://mobilewifihikaku.web.app/articles/beginner-guide' },
+    ],
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-white">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "Article",
-            "headline": "モバイルWi-Fi初心者向けガイド",
-            "description": "はじめてモバイルWi-Fiを選ぶ方向けの基本知識とおすすめサービスをわかりやすく解説",
-            "datePublished": "2025-01-15",
-            "dateModified": "2025-01-15",
-            "inLanguage": "ja-JP",
-            "mainEntityOfPage": {
-              "@type": "WebPage",
-              "@id": "https://mobilewifihikaku.web.app/articles/beginner-guide"
-            },
-            "publisher": {
-              "@type": "Organization",
-              "name": "モバイルWiFi比較ナビ",
-              "logo": {"@type": "ImageObject", "url": "https://mobilewifihikaku.web.app/og-image.jpg"}
-            }
-          })
+          __html: JSON.stringify(articleLd)
         }}
       />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "BreadcrumbList",
-            "itemListElement": [
-              {"@type": "ListItem", "position": 1, "name": "ホーム", "item": "https://mobilewifihikaku.web.app/"},
-              {"@type": "ListItem", "position": 2, "name": "記事一覧", "item": "https://mobilewifihikaku.web.app/articles"},
-              {"@type": "ListItem", "position": 3, "name": "初心者向けガイド", "item": "https://mobilewifihikaku.web.app/articles/beginner-guide"}
-            ]
-          })
+          __html: JSON.stringify(breadcrumbLd)
         }}
       />
       {/* Header */}
@@ -89,6 +97,7 @@ export default function BeginnerGuidePage() {
             <p className="text-xl text-gray-600 leading-relaxed">
               はじめてモバイルWi-Fiを選ぶ方向けに、基本知識から選び方のポイントまでわかりやすく解説します。
             </p>
+            <LastUpdated date={lastUpdated} className="mt-6" />
           </header>
 
           <div className="prose prose-lg max-w-none">

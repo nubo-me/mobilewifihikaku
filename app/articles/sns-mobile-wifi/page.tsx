@@ -1,6 +1,23 @@
 import Link from 'next/link';
 import type { Metadata } from "next";
 
+import { LastUpdated } from "../../components/LastUpdated";
+
+const lastUpdated = "2025-01-22";
+
+const articleLd = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  headline: "TikTok・Instagram見放題！SNS用モバイルWiFi選び方ガイド",
+  description: "SNSヘビーユーザー向けのモバイルWiFi選び方とおすすめプランを詳しく解説",
+  datePublished: "2025-01-22",
+  dateModified: lastUpdated,
+  author: {
+    "@type": "Organization",
+    name: "モバイルWiFi比較ナビ",
+  },
+};
+
 export const metadata: Metadata = {
   title: "TikTok・Instagram見放題！SNS用モバイルWiFi選び方ガイド【2025年】",
   description: "TikTok、Instagram、YouTube Shortsを通信制限なしで楽しみたい方必見！SNSヘビーユーザー向けのモバイルWiFi選び方とおすすめプランを紹介します。",
@@ -22,18 +39,7 @@ export default function SNSMobileWifiPage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "Article",
-            "headline": "TikTok・Instagram見放題！SNS用モバイルWiFi選び方ガイド",
-            "description": "SNSヘビーユーザー向けのモバイルWiFi選び方とおすすめプランを詳しく解説",
-            "datePublished": "2025-01-22",
-            "dateModified": "2025-01-22",
-            "author": {
-              "@type": "Organization",
-              "name": "モバイルWiFi比較ナビ"
-            }
-          })
+          __html: JSON.stringify(articleLd),
         }}
       />
 
@@ -67,6 +73,7 @@ export default function SNSMobileWifiPage() {
             <p className="text-base text-gray-600 leading-relaxed">
               通信制限を気にせず、好きなだけ<br className="md:hidden" />SNS動画を楽しもう！
             </p>
+            <LastUpdated date={lastUpdated} className="mt-4 justify-center" />
           </div>
 
           {/* SNSデータ消費量 */}

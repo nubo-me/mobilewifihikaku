@@ -1,42 +1,57 @@
 import Link from 'next/link';
 import { Metadata } from 'next';
 
+import { LastUpdated } from '@/app/components/LastUpdated';
+
 export const metadata: Metadata = {
   title: 'クラウドSIM vs 物理SIM 徹底比較 | モバイルWiFi比較ナビ',
   description: 'クラウドSIMと物理SIMの違いを詳しく解説。それぞれのメリット・デメリットと選び方のポイントをご紹介します。',
 };
 
+const lastUpdated = '2025-01-12';
+
 export default function CloudSimVsPhysicalSimPage() {
+  const articleLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: 'クラウドSIM vs 物理SIM 徹底比較',
+    description: 'クラウドSIMと物理SIMの違いを詳しく解説。それぞれのメリット・デメリットと選び方のポイント',
+    datePublished: lastUpdated,
+    dateModified: lastUpdated,
+    inLanguage: 'ja-JP',
+    mainEntityOfPage: {
+      '@type': 'WebPage',
+      '@id': 'https://mobilewifihikaku.web.app/articles/cloudsim-vs-physicalsim',
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: 'モバイルWiFi比較ナビ',
+      logo: { '@type': 'ImageObject', url: 'https://mobilewifihikaku.web.app/og-image.jpg' },
+    },
+  };
+
+  const breadcrumbLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'ホーム', item: 'https://mobilewifihikaku.web.app/' },
+      { '@type': 'ListItem', position: 2, name: '記事一覧', item: 'https://mobilewifihikaku.web.app/articles' },
+      { '@type': 'ListItem', position: 3, name: 'クラウドSIM vs 物理SIM', item: 'https://mobilewifihikaku.web.app/articles/cloudsim-vs-physicalsim' },
+    ],
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-white">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "Article",
-            "headline": "クラウドSIM vs 物理SIM 徹底比較",
-            "description": "クラウドSIMと物理SIMの違いを詳しく解説。それぞれのメリット・デメリットと選び方のポイント",
-            "datePublished": "2025-01-12",
-            "dateModified": "2025-01-12",
-            "inLanguage": "ja-JP",
-            "mainEntityOfPage": {"@type": "WebPage", "@id": "https://mobilewifihikaku.web.app/articles/cloudsim-vs-physicalsim"},
-            "publisher": {"@type": "Organization", "name": "モバイルWiFi比較ナビ", "logo": {"@type": "ImageObject", "url": "https://mobilewifihikaku.web.app/og-image.jpg"}}
-          })
+          __html: JSON.stringify(articleLd)
         }}
       />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "BreadcrumbList",
-            "itemListElement": [
-              {"@type": "ListItem", "position": 1, "name": "ホーム", "item": "https://mobilewifihikaku.web.app/"},
-              {"@type": "ListItem", "position": 2, "name": "記事一覧", "item": "https://mobilewifihikaku.web.app/articles"},
-              {"@type": "ListItem", "position": 3, "name": "クラウドSIM vs 物理SIM", "item": "https://mobilewifihikaku.web.app/articles/cloudsim-vs-physicalsim"}
-            ]
-          })
+          __html: JSON.stringify(breadcrumbLd)
         }}
       />
       {/* Header */}
@@ -82,6 +97,7 @@ export default function CloudSimVsPhysicalSimPage() {
             <p className="text-xl text-gray-600 leading-relaxed">
               クラウドSIMと物理SIMの違いを詳しく解説。それぞれのメリット・デメリットと選び方のポイントをご紹介します。
             </p>
+            <LastUpdated date={lastUpdated} className="mt-6" />
           </header>
 
           <div className="prose prose-lg max-w-none">

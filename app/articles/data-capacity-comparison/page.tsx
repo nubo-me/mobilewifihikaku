@@ -1,6 +1,8 @@
 import Link from 'next/link';
 import type { Metadata } from "next";
 
+import { LastUpdated } from '@/app/components/LastUpdated';
+
 export const metadata: Metadata = {
   title: "データ容量別おすすめモバイルWiFi【2025年最新】| 10GB・20GB・50GB・無制限プラン徹底比較",
   description: "データ容量別におすすめのモバイルWiFiサービスを徹底比較。10GB、20GB、50GB、無制限プランの料金相場、使用量目安、最適なサービス選びを詳しく解説します。",
@@ -12,37 +14,48 @@ export const metadata: Metadata = {
   },
 };
 
+const lastUpdated = '2025-01-10';
+
 export default function DataCapacityComparisonPage() {
+  const articleLd = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: "データ容量別おすすめモバイルWiFi【2025年最新】",
+    description:
+      "データ容量別におすすめのモバイルWiFiサービスを徹底比較。10GB、20GB、50GB、無制限プランの料金相場、使用量目安、最適選び",
+    datePublished: lastUpdated,
+    dateModified: lastUpdated,
+    inLanguage: "ja-JP",
+    mainEntityOfPage: { "@type": "WebPage", "@id": "https://mobilewifihikaku.web.app/articles/data-capacity-comparison" },
+    publisher: {
+      "@type": "Organization",
+      name: "モバイルWiFi比較ナビ",
+      logo: { "@type": "ImageObject", url: "https://mobilewifihikaku.web.app/og-image.jpg" },
+    },
+  };
+
+  const breadcrumbLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "ホーム", item: "https://mobilewifihikaku.web.app/" },
+      { "@type": "ListItem", position: 2, name: "記事一覧", item: "https://mobilewifihikaku.web.app/articles" },
+      { "@type": "ListItem", position: 3, name: "データ容量別おすすめ", item: "https://mobilewifihikaku.web.app/articles/data-capacity-comparison" },
+    ],
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-white">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "Article",
-            "headline": "データ容量別おすすめモバイルWiFi【2025年最新】",
-            "description": "データ容量別におすすめのモバイルWiFiサービスを徹底比較。10GB、20GB、50GB、無制限プランの料金相場、使用量目安、最適選び",
-            "datePublished": "2025-01-10",
-            "dateModified": "2025-01-10",
-            "inLanguage": "ja-JP",
-            "mainEntityOfPage": {"@type": "WebPage", "@id": "https://mobilewifihikaku.web.app/articles/data-capacity-comparison"},
-            "publisher": {"@type": "Organization", "name": "モバイルWiFi比較ナビ", "logo": {"@type": "ImageObject", "url": "https://mobilewifihikaku.web.app/og-image.jpg"}}
-          })
+          __html: JSON.stringify(articleLd)
         }}
       />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "BreadcrumbList",
-            "itemListElement": [
-              {"@type": "ListItem", "position": 1, "name": "ホーム", "item": "https://mobilewifihikaku.web.app/"},
-              {"@type": "ListItem", "position": 2, "name": "記事一覧", "item": "https://mobilewifihikaku.web.app/articles"},
-              {"@type": "ListItem", "position": 3, "name": "データ容量別おすすめ", "item": "https://mobilewifihikaku.web.app/articles/data-capacity-comparison"}
-            ]
-          })
+          __html: JSON.stringify(breadcrumbLd)
         }}
       />
       {/* Header */}
@@ -100,6 +113,7 @@ export default function DataCapacityComparisonPage() {
               10GB、20GB、50GB、無制限など、データ容量別におすすめのモバイルWiFiサービスを徹底比較。
               あなたの使用量に最適なプランを見つけましょう。
             </p>
+            <LastUpdated date={lastUpdated} />
           </div>
         </div>
       </section>

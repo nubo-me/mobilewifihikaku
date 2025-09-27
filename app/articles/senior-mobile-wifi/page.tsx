@@ -1,6 +1,23 @@
 import Link from 'next/link';
 import type { Metadata } from "next";
 
+import { LastUpdated } from "../../components/LastUpdated";
+
+const lastUpdated = "2025-01-25";
+
+const articleLd = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  headline: "シニア・60代におすすめのモバイルWiFi【2025年】簡単・安心プラン",
+  description: "シニア世代向けの操作が簡単で安心して使えるモバイルWiFiプランの紹介",
+  datePublished: "2025-01-25",
+  dateModified: lastUpdated,
+  author: {
+    "@type": "Organization",
+    name: "モバイルWiFi比較ナビ",
+  },
+};
+
 export const metadata: Metadata = {
   title: "シニア・60代におすすめのモバイルWiFi【2025年】簡単・安心プラン",
   description: "60代・シニア世代でも安心して使えるモバイルWiFiを厳選。操作が簡単で、サポートが充実したプランをご紹介。孫との動画通話やネットショッピングも快適に。",
@@ -22,18 +39,7 @@ export default function SeniorMobileWifiPage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "Article",
-            "headline": "シニア・60代におすすめのモバイルWiFi【2025年】簡単・安心プラン",
-            "description": "シニア世代向けの操作が簡単で安心して使えるモバイルWiFiプランの紹介",
-            "datePublished": "2025-01-25",
-            "dateModified": "2025-01-25",
-            "author": {
-              "@type": "Organization",
-              "name": "モバイルWiFi比較ナビ"
-            }
-          })
+          __html: JSON.stringify(articleLd),
         }}
       />
 
@@ -69,6 +75,7 @@ export default function SeniorMobileWifiPage() {
               操作が簡単で、サポートも充実！<br className="md:hidden" />
               シニア世代にやさしいプランをご紹介
             </p>
+            <LastUpdated date={lastUpdated} className="mt-4 justify-center" />
           </div>
 
           {/* シニアの悩み */}

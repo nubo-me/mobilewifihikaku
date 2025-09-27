@@ -1,6 +1,48 @@
 import Link from 'next/link';
 import type { Metadata } from "next";
 
+import { LastUpdated } from "../../components/LastUpdated";
+
+const lastUpdated = "2025-01-08";
+
+const articleLd = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  headline: "モバイルWiFiの通信速度を向上させる方法【完全版】",
+  description:
+    "モバイルWiFiの通信速度が遅い時の原因と対処法を詳しく解説。設置場所の最適化から端末設定まで実践的テクニック",
+  datePublished: "2025-01-08",
+  dateModified: lastUpdated,
+  inLanguage: "ja-JP",
+  mainEntityOfPage: {
+    "@type": "WebPage",
+    "@id": "https://mobilewifihikaku.web.app/articles/speed-improvement-tips",
+  },
+  publisher: {
+    "@type": "Organization",
+    name: "モバイルWiFi比較ナビ",
+    logo: {
+      "@type": "ImageObject",
+      url: "https://mobilewifihikaku.web.app/og-image.jpg",
+    },
+  },
+};
+
+const breadcrumbLd = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "ホーム", item: "https://mobilewifihikaku.web.app/" },
+    { "@type": "ListItem", position: 2, name: "記事一覧", item: "https://mobilewifihikaku.web.app/articles" },
+    {
+      "@type": "ListItem",
+      position: 3,
+      name: "通信速度向上テクニック",
+      item: "https://mobilewifihikaku.web.app/articles/speed-improvement-tips",
+    },
+  ],
+};
+
 export const metadata: Metadata = {
   title: "モバイルWiFiの通信速度を向上させる方法【完全版】| 遅い原因と対処法を徹底解説",
   description: "モバイルWiFiの通信速度が遅い時の原因と対処法を詳しく解説。設置場所の最適化から端末設定、トラブルシューティングまで実践的なテクニックをご紹介します。",
@@ -18,31 +60,13 @@ export default function SpeedImprovementTipsPage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "Article",
-            "headline": "モバイルWiFiの通信速度を向上させる方法【完全版】",
-            "description": "モバイルWiFiの通信速度が遅い時の原因と対処法を詳しく解説。設置場所の最適化から端末設定まで実践的テクニック",
-            "datePublished": "2025-01-08",
-            "dateModified": "2025-01-08",
-            "inLanguage": "ja-JP",
-            "mainEntityOfPage": {"@type": "WebPage", "@id": "https://mobilewifihikaku.web.app/articles/speed-improvement-tips"},
-            "publisher": {"@type": "Organization", "name": "モバイルWiFi比較ナビ", "logo": {"@type": "ImageObject", "url": "https://mobilewifihikaku.web.app/og-image.jpg"}}
-          })
+          __html: JSON.stringify(articleLd),
         }}
       />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "BreadcrumbList",
-            "itemListElement": [
-              {"@type": "ListItem", "position": 1, "name": "ホーム", "item": "https://mobilewifihikaku.web.app/"},
-              {"@type": "ListItem", "position": 2, "name": "記事一覧", "item": "https://mobilewifihikaku.web.app/articles"},
-              {"@type": "ListItem", "position": 3, "name": "通信速度向上テクニック", "item": "https://mobilewifihikaku.web.app/articles/speed-improvement-tips"}
-            ]
-          })
+          __html: JSON.stringify(breadcrumbLd),
         }}
       />
       {/* Header */}
@@ -100,6 +124,7 @@ export default function SpeedImprovementTipsPage() {
               通信速度が遅い時の原因と対処法を詳しく解説。設置場所の最適化から端末設定、
               トラブルシューティングまで実践的なテクニックをご紹介します。
             </p>
+            <LastUpdated date={lastUpdated} className="mb-8" />
             
             <div className="bg-orange-50 p-6 rounded-lg mb-8">
               <h2 className="font-semibold text-orange-800 mb-3">この記事で解決できること</h2>

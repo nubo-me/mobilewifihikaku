@@ -3,39 +3,147 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 
-// --- helpers: affiliate rel and URL extraction ---
-const ensureSponsoredNofollow = (html: string) => {
-  // 1) If rel exists on first anchor, replace it; else inject
-  const withTarget = html.replace(/<a\b([^>]*?)>/i, (m, attrs) => {
-    // normalize rel
-    let newAttrs = attrs;
-    if (/\brel\s*=\s*"[^"]*"/i.test(newAttrs)) {
-      newAttrs = newAttrs.replace(/rel\s*=\s*"[^"]*"/i, 'rel="sponsored nofollow"');
-    } else {
-      newAttrs += ' rel="sponsored nofollow"';
-    }
-    // ensure target blank for external
-    if (!/\btarget\s*=\s*"_blank"/i.test(newAttrs)) {
-      newAttrs += ' target="_blank"';
-    }
-    // security noopener
-    if (!/\brel\s*=/.test(newAttrs)) {
-      newAttrs += ' rel="sponsored nofollow noopener"';
-    } else {
-      newAttrs = newAttrs.replace(/rel\s*=\s*"([^"]*)"/i, (_m: string, rel: string) => {
-        const parts = new Set<string>(rel.split(/\s+/).concat(['sponsored','nofollow','noopener']));
-        return `rel="${Array.from(parts).join(' ')}"`;
-      });
-    }
-    return `<a${newAttrs}>`;
-  });
-  return withTarget;
+import { LastUpdated } from '@/app/components/LastUpdated';
+import { articlesBySlug } from '@/lib/articlesMetadata';
+
+type HomeArticleCardConfig = {
+  title: string;
+  description: string;
+  href: string;
+  slug: string;
+  icon: string;
+  cardClass: string;
+  iconBgClass: string;
+  linkClass: string;
 };
 
-const extractFirstHref = (html: string): string | null => {
-  const m = html.match(/<a[^>]*href=\"([^\"]+)\"/i);
-  return m ? m[1] : null;
+type HomeArticleCard = HomeArticleCardConfig & {
+  lastUpdated: string | null;
+  readTime: string | null;
 };
+
+const homeArticleCardConfigs: HomeArticleCardConfig[] = [
+  {
+    title: 'スマホのギガ不足解決',
+    description: '通信制限で困っている方必見！データ節約術とモバイルWiFi活用法',
+    href: '/articles/smartphone-data-saving',
+    slug: 'smartphone-data-saving',
+    icon: '📱',
+    cardClass: 'bg-gradient-to-br from-green-50 to-green-100',
+    iconBgClass: 'bg-green-600',
+    linkClass: 'text-green-600 hover:text-green-700'
+  },
+  {
+    title: 'SNS・動画好き必見',
+    description: 'TikTok・Instagram・YouTubeを思う存分楽しむ方法',
+    href: '/articles/sns-mobile-wifi',
+    slug: 'sns-mobile-wifi',
+    icon: '📸',
+    cardClass: 'bg-gradient-to-br from-pink-50 to-pink-100',
+    iconBgClass: 'bg-pink-600',
+    linkClass: 'text-pink-600 hover:text-pink-700'
+  },
+  {
+    title: '大学生向け特集',
+    description: '学生にやさしい料金！オンライン授業も動画も思う存分',
+    href: '/articles/student-mobile-wifi',
+    slug: 'student-mobile-wifi',
+    icon: '🎓',
+    cardClass: 'bg-gradient-to-br from-blue-50 to-blue-100',
+    iconBgClass: 'bg-blue-600',
+    linkClass: 'text-blue-600 hover:text-blue-700'
+  },
+  {
+    title: '在宅ワーク・主婦向け',
+    description: '工事不要で即日開始！家計にやさしいプランをご紹介',
+    href: '/articles/housewife-mobile-wifi',
+    slug: 'housewife-mobile-wifi',
+    icon: '🏡',
+    cardClass: 'bg-gradient-to-br from-purple-50 to-purple-100',
+    iconBgClass: 'bg-purple-600',
+    linkClass: 'text-purple-600 hover:text-purple-700'
+  },
+  {
+    title: 'Broad WiMAX店長レビュー',
+    description: '端末の在庫確認や店頭サポートの実情まで、Broad WiMAXの強みと注意点を解説',
+    href: '/articles/providers/broad-wimax',
+    slug: 'providers/broad-wimax',
+    icon: '🏬',
+    cardClass: 'bg-gradient-to-br from-sky-50 to-sky-100',
+    iconBgClass: 'bg-sky-600',
+    linkClass: 'text-sky-600 hover:text-sky-700'
+  },
+  {
+    title: 'GMOとくとくBB WiMAXの裏側',
+    description: 'キャッシュバック対応や契約後サポートを店長目線でチェック',
+    href: '/articles/providers/gmo-wimax',
+    slug: 'providers/gmo-wimax',
+    icon: '💼',
+    cardClass: 'bg-gradient-to-br from-amber-50 to-amber-100',
+    iconBgClass: 'bg-amber-500',
+    linkClass: 'text-amber-600 hover:text-amber-700'
+  },
+  {
+    title: 'ZEUS WiFiを選ぶ理由',
+    description: '海外対応や料金プランの柔軟さを、店舗での相談事例とともに紹介',
+    href: '/articles/providers/zeus-wifi',
+    slug: 'providers/zeus-wifi',
+    icon: '⚡',
+    cardClass: 'bg-gradient-to-br from-indigo-50 to-indigo-100',
+    iconBgClass: 'bg-indigo-600',
+    linkClass: 'text-indigo-600 hover:text-indigo-700'
+  },
+  {
+    title: 'Mugen WiFi長期利用レポート',
+    description: '端末故障対応や長期割引の実情など、リピーターの声を反映したレビュー',
+    href: '/articles/providers/mugen-wifi',
+    slug: 'providers/mugen-wifi',
+    icon: '🔁',
+    cardClass: 'bg-gradient-to-br from-rose-50 to-rose-100',
+    iconBgClass: 'bg-rose-500',
+    linkClass: 'text-rose-600 hover:text-rose-700'
+  },
+  {
+    title: '一人暮らし向けベストプラン',
+    description: '毎月の通信費を抑えつつ、設置が簡単なプランを店頭ヒアリングから厳選',
+    href: '/articles/purpose/hitorigurashi',
+    slug: 'purpose/hitorigurashi',
+    icon: '🏠',
+    cardClass: 'bg-gradient-to-br from-emerald-50 to-emerald-100',
+    iconBgClass: 'bg-emerald-500',
+    linkClass: 'text-emerald-600 hover:text-emerald-700'
+  },
+  {
+    title: 'ゲーマーが満足する回線',
+    description: 'ラグを抑える端末選びと店舗での設定サポート事例をまとめました',
+    href: '/articles/purpose/game',
+    slug: 'purpose/game',
+    icon: '🎮',
+    cardClass: 'bg-gradient-to-br from-slate-50 to-slate-100',
+    iconBgClass: 'bg-slate-600',
+    linkClass: 'text-slate-600 hover:text-slate-700'
+  },
+  {
+    title: '出張・旅行のWiFi準備',
+    description: '空港受け渡しや海外レンタルの注意点を、店舗相談で多い質問から整理',
+    href: '/articles/purpose/business-trip',
+    slug: 'purpose/business-trip',
+    icon: '🧳',
+    cardClass: 'bg-gradient-to-br from-orange-50 to-orange-100',
+    iconBgClass: 'bg-orange-500',
+    linkClass: 'text-orange-600 hover:text-orange-700'
+  }
+];
+
+const homeArticleCards: HomeArticleCard[] = homeArticleCardConfigs.map((card) => {
+  const meta = articlesBySlug[card.slug];
+
+  return {
+    ...card,
+    lastUpdated: meta?.lastUpdated ?? null,
+    readTime: meta?.readTime ?? null,
+  };
+});
 
 const wifiRouters = [
   {
@@ -264,6 +372,73 @@ const wifiRouters = [
   }
 ];
 
+type WifiRouter = typeof wifiRouters[number];
+
+const strengthMatchers: Array<{ test: RegExp; icon: string; short: string }> = [
+  { test: /無制限|大容量|容量/i, icon: '📶', short: '大容量' },
+  { test: /海外|世界|国/i, icon: '🌍', short: '海外対応' },
+  { test: /即日|即時|当日|即時開通/i, icon: '⚡', short: '即日受け渡し' },
+  { test: /縛りなし|買い切り|解約金|プリペイド/i, icon: '🔓', short: '縛りなし' },
+  { test: /サポート|保証|補償/i, icon: '🤝', short: 'サポート充実' },
+  { test: /料金|安い|コスパ|節約/i, icon: '💰', short: '高コスパ' },
+  { test: /5G|高速|スピード|速度/i, icon: '🚀', short: '高速通信' },
+  { test: /女性|デザイン|可愛い/i, icon: '🎀', short: 'デザイン重視' },
+  { test: /自動|チャージ|管理/i, icon: '🔄', short: '管理ラク' },
+];
+
+const getStrengthBadges = (router: WifiRouter) => {
+  const source = [router.recommendedFor, ...router.features, ...router.pros];
+  const badges: Array<{ icon: string; label: string }> = [];
+
+  for (const text of source) {
+    if (!text) continue;
+    const matcher = strengthMatchers.find(({ test }) => test.test(text));
+    const icon = matcher?.icon ?? '⭐';
+    const label = matcher ? matcher.short : text.length > 18 ? `${text.slice(0, 18)}…` : text;
+
+    if (!badges.some((badge) => badge.label === label && badge.icon === icon)) {
+      badges.push({ icon, label });
+    }
+
+    if (badges.length >= 3) break;
+  }
+
+  if (badges.length === 0) {
+    badges.push({ icon: '⭐', label: router.recommendedFor });
+  }
+
+  return badges;
+};
+
+const ensureSponsoredNofollow = (html: string): string => {
+  return html.replace(/<a\s+([^>]*?)>/gi, (match, attrs) => {
+    let newAttrs = attrs;
+
+    if (/rel=/i.test(newAttrs)) {
+      newAttrs = newAttrs.replace(/rel="([^"]*)"/i, (match: string, relValue: string) => {
+        const tokens = new Set(relValue.split(/\s+/).filter(Boolean));
+        tokens.add('nofollow');
+        tokens.add('sponsored');
+        tokens.add('noopener');
+        return `rel="${Array.from(tokens).join(' ')}"`;
+      });
+    } else {
+      newAttrs = `${newAttrs} rel="nofollow sponsored noopener"`;
+    }
+
+    if (!/target=/i.test(newAttrs)) {
+      newAttrs = `${newAttrs} target="_blank"`;
+    }
+
+    return `<a ${newAttrs}>`;
+  });
+};
+
+const extractFirstHref = (html: string): string | null => {
+  const match = html.match(/href="([^"]+)"/i);
+  return match ? match[1] : null;
+};
+
 const faqs = [
   {
     question: 'モバイルWi-Fiとは何ですか？',
@@ -286,6 +461,7 @@ const faqs = [
     answer: 'Webブラウジングやメールなら1-5Mbps、動画視聴なら10-25Mbps、オンライン会議なら10-30Mbpsが目安です。用途に応じて必要な速度を検討しましょう。'
   }
 ];
+
 
 export default function Home() {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
@@ -334,6 +510,33 @@ export default function Home() {
               name: r.name,
               url: 'https://mobilewifihikaku.web.app/#products'
             }))
+          })
+        }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'ItemList',
+            name: '注目モバイルWiFi記事',
+            itemListElement: homeArticleCards.map((card, index) => {
+              const meta = articlesBySlug[card.slug];
+              return {
+                '@type': 'ListItem',
+                position: index + 1,
+                item: {
+                  '@type': 'Article',
+                  headline: card.title,
+                  description: meta?.description ?? card.description,
+                  url: `https://mobilewifihikaku.web.app${card.href}`,
+                  dateModified: card.lastUpdated ?? meta?.lastUpdated,
+                  datePublished: card.lastUpdated ?? meta?.lastUpdated,
+                  articleSection: meta?.category,
+                  keywords: meta?.tags?.join(', '),
+                },
+              };
+            })
           })
         }}
       />
@@ -425,27 +628,65 @@ export default function Home() {
           onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }}
         />
         <div className="container mx-auto px-4 relative z-10">
-          <div className="max-w-4xl mx-auto text-center">
-            <h1 className="text-4xl md:text-5xl font-bold mb-6">
-              安心・簡単な<br />
-              <span className="text-blue-200">モバイルWi-Fi選び</span>
+          <div className="max-w-5xl mx-auto text-center lg:text-left">
+            <div className="inline-flex items-center gap-2 bg-white/15 border border-white/20 rounded-full px-4 py-2 text-sm font-semibold tracking-wide mb-6">
+              <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-white/20 text-lg">👩‍💼</span>
+              現役店舗店長が本音でサポート
+            </div>
+            <h1 className="text-4xl md:text-5xl font-bold mb-6 leading-snug">
+              店頭で毎日いただく質問から生まれた<br className="hidden md:block" />
+              <span className="text-blue-200">失敗しないモバイルWi-Fi診断</span>
             </h1>
-            <p className="text-xl md:text-2xl mb-8 text-blue-100">
-              16種類の人気サービスを徹底比較！あなたにぴったりのWi-Fiが見つかります
+            <p className="text-lg md:text-xl mb-8 text-blue-100 leading-relaxed">
+              「速度は大丈夫？」「キャンペーンの申込条件は？」など、累計5,000件以上の相談実績をもとに、
+              あなたの生活スタイルに合わせて最適な1台を見つけます。
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button 
-                onClick={() => document.getElementById('comparison')?.scrollIntoView({ behavior: 'smooth' })}
-                className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-4 rounded-lg font-semibold text-lg transition-colors whitespace-nowrap cursor-pointer"
-              >
-                今すぐ比較する
-              </button>
-              <button 
-                onClick={() => document.getElementById('guide')?.scrollIntoView({ behavior: 'smooth' })}
-                className="bg-transparent border-2 border-white text-white hover:bg-white hover:text-blue-600 px-8 py-4 rounded-lg font-semibold text-lg transition-colors whitespace-nowrap cursor-pointer"
-              >
-                選び方を学ぶ
-              </button>
+            <div className="grid gap-6 lg:grid-cols-[2fr_1fr] items-center">
+              <div>
+                <div className="flex flex-col sm:flex-row gap-4 mb-6">
+                  <button
+                    onClick={() => document.getElementById('comparison')?.scrollIntoView({ behavior: 'smooth' })}
+                    className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-4 rounded-lg font-semibold text-lg transition-colors whitespace-nowrap cursor-pointer shadow-lg shadow-orange-500/30"
+                  >
+                    店長おすすめ16社を比較
+                  </button>
+                  <Link
+                    href="#guide"
+                    className="bg-white/10 border-2 border-white text-white hover:bg-white hover:text-blue-700 px-8 py-4 rounded-lg font-semibold text-lg transition-colors whitespace-nowrap text-center"
+                    scroll={false}
+                  >
+                    診断ステップを確認
+                  </Link>
+                </div>
+                <div className="grid sm:grid-cols-3 gap-4 text-left">
+                  <div className="bg-white/10 border border-white/10 rounded-xl p-4">
+                    <p className="text-sm font-semibold text-white/90">平均提案満足度</p>
+                    <p className="text-2xl font-bold text-white">94%</p>
+                    <p className="text-xs text-white/80 mt-1">アンケート（2025年7-9月 店舗内調査）</p>
+                  </div>
+                  <div className="bg-white/10 border border-white/10 rounded-xl p-4">
+                    <p className="text-sm font-semibold text-white/90">即日受け渡し在庫</p>
+                    <p className="text-2xl font-bold text-white">常時15台以上</p>
+                    <p className="text-xs text-white/80 mt-1">人気端末も事前予約で確保</p>
+                  </div>
+                  <div className="bg-white/10 border border-white/10 rounded-xl p-4">
+                    <p className="text-sm font-semibold text-white/90">よくある相談</p>
+                    <ul className="text-xs text-white/80 mt-1 space-y-1">
+                      <li>・キャッシュバックの受取方法</li>
+                      <li>・引っ越し時の手続き</li>
+                      <li>・海外利用の注意点</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <div className="bg-white/15 border border-white/20 rounded-2xl p-6 backdrop-blur">
+                <h2 className="text-lg font-semibold text-white mb-2">店舗責任者からひと言</h2>
+                <p className="text-sm text-white/85 leading-relaxed">
+                  「目的や利用回線を伺ってから、ご希望に合わせた端末を一緒に選びます。強引な勧誘は行いませんので、
+                  まずはお気軽に比較表をご覧いただき、気になる点があれば店舗スタッフまでお声がけください。」
+                </p>
+                <p className="text-xs text-white/80 mt-4">店長：佐藤（モバイルWi-Fi専門店歴10年）</p>
+              </div>
             </div>
           </div>
         </div>
@@ -530,39 +771,58 @@ export default function Home() {
                     <th className="px-4 py-3 text-left">契約期間</th>
                     <th className="px-4 py-3 text-left">通信速度</th>
                     <th className="px-4 py-3 text-left">端末タイプ</th>
+                    <th className="px-4 py-3 text-left">店長の推しポイント</th>
                     <th className="px-4 py-3 text-center">詳細</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {wifiRouters.map((router, index) => (
-                    <tr key={router.id} className={index % 2 === 0 ? 'bg-gray-50' : 'bg-white'}>
-                      <td className="px-4 py-3 font-medium text-gray-800">{router.name}</td>
-                      <td className="px-4 py-3 text-blue-600 font-semibold">{router.price}</td>
-                      <td className="px-4 py-3 text-gray-600">{router.contractPeriod}</td>
-                      <td className="px-4 py-3 text-gray-600">{router.speed}</td>
-                      <td className="px-4 py-3">
-                        <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-xs">
-                          {router.type}
-                        </span>
-                      </td>
-                      <td className="px-4 py-3 text-center">
-                        <button 
-                          onClick={() => {
-                            // アフィリエイトリンクのURLを抽出して開く
-                            const tempDiv = document.createElement('div');
-                            tempDiv.innerHTML = router.detailLink;
-                            const link = tempDiv.querySelector('a');
-                            if (link) {
-                              window.open(link.href, '_blank');
-                            }
-                          }}
-                          className="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors whitespace-nowrap cursor-pointer"
-                        >
-                          詳細を見る
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
+                  {wifiRouters.map((router, index) => {
+                    const strengthBadges = getStrengthBadges(router);
+                    return (
+                      <tr key={router.id} className={index % 2 === 0 ? 'bg-gray-50' : 'bg-white'}>
+                        <td className="px-4 py-3 font-medium text-gray-800">{router.name}</td>
+                        <td className="px-4 py-3 text-blue-600 font-semibold">{router.price}</td>
+                        <td className="px-4 py-3 text-gray-600">{router.contractPeriod}</td>
+                        <td className="px-4 py-3 text-gray-600">{router.speed}</td>
+                        <td className="px-4 py-3">
+                          <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-xs font-semibold">
+                            {router.type}
+                          </span>
+                        </td>
+                        <td className="px-4 py-3">
+                          <div className="flex flex-wrap gap-2">
+                            {strengthBadges.map((badge, badgeIndex) => (
+                              <span
+                                key={`${router.id}-badge-${badgeIndex}`}
+                                className="inline-flex items-center gap-1 bg-orange-50 text-orange-600 px-3 py-1 rounded-full text-xs font-semibold border border-orange-100 shadow-sm"
+                              >
+                                <span>{badge.icon}</span>
+                                <span>{badge.label}</span>
+                              </span>
+                            ))}
+                          </div>
+                        </td>
+                        <td className="px-4 py-3 text-center">
+                          <button 
+                            onClick={() => {
+                              // アフィリエイトリンクのURLを抽出して開く
+                              const tempDiv = document.createElement('div');
+                              tempDiv.innerHTML = router.detailLink;
+                              const link = tempDiv.querySelector('a');
+                              if (link) {
+                                window.open(link.href, '_blank');
+                              }
+                            }}
+                            className="group inline-flex items-center justify-center gap-2 bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white px-5 py-2 rounded-lg text-sm font-semibold transition-all whitespace-nowrap cursor-pointer shadow-md shadow-orange-500/30"
+                          >
+                            詳細を見る
+                            <i className="ri-arrow-right-up-line text-base transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"></i>
+                          </button>
+                          <p className="text-[11px] text-gray-400 mt-2">※公式サイトで条件を確認</p>
+                        </td>
+                      </tr>
+                    );
+                  })}
                 </tbody>
               </table>
             </div>
@@ -682,42 +942,33 @@ export default function Home() {
           </h2>
           
           <div className="max-w-6xl mx-auto">
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-              <div className="bg-gradient-to-br from-green-50 to-green-100 p-6 rounded-lg hover:shadow-lg transition-shadow">
-                <div className="w-12 h-12 bg-green-600 rounded-lg flex items-center justify-center mb-4">
-                  <span className="text-white text-xl">📱</span>
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              {homeArticleCards.map((card) => (
+                <div
+                  key={card.href}
+                  className={`${card.cardClass} p-6 rounded-lg hover:shadow-lg transition-shadow h-full flex flex-col`}
+                >
+                  <div className={`w-12 h-12 ${card.iconBgClass} rounded-lg flex items-center justify-center mb-4`}>
+                    <span className="text-white text-xl">{card.icon}</span>
+                  </div>
+                  <h3 className="font-semibold mb-2 text-gray-800">{card.title}</h3>
+                  <p className="text-sm text-gray-600 mb-4 flex-grow">{card.description}</p>
+                  {(card.lastUpdated || card.readTime) && (
+                    <div className="flex flex-wrap items-center gap-2 text-xs text-gray-500 mb-4 w-full">
+                      {card.lastUpdated ? (
+                        <LastUpdated date={card.lastUpdated} className="text-xs text-gray-500" />
+                      ) : null}
+                      {card.readTime ? (
+                        <span className="flex items-center gap-1 ml-auto text-xs text-gray-500">
+                          <i className="ri-time-line text-base text-gray-400" aria-hidden="true" />
+                          {card.readTime}
+                        </span>
+                      ) : null}
+                    </div>
+                  )}
+                  <Link href={card.href} className={`${card.linkClass} text-sm font-medium`}>記事を読む →</Link>
                 </div>
-                <h3 className="font-semibold mb-2 text-gray-800">スマホのギガ不足解決</h3>
-                <p className="text-sm text-gray-600 mb-4">通信制限で困っている方必見！データ節約術とモバイルWiFi活用法</p>
-                <Link href="/articles/smartphone-data-saving" className="text-green-600 hover:text-green-700 text-sm font-medium">記事を読む →</Link>
-              </div>
-              
-              <div className="bg-gradient-to-br from-pink-50 to-pink-100 p-6 rounded-lg hover:shadow-lg transition-shadow">
-                <div className="w-12 h-12 bg-pink-600 rounded-lg flex items-center justify-center mb-4">
-                  <span className="text-white text-xl">📸</span>
-                </div>
-                <h3 className="font-semibold mb-2 text-gray-800">SNS・動画好き必見</h3>
-                <p className="text-sm text-gray-600 mb-4">TikTok・Instagram・YouTubeを思う存分楽しむ方法</p>
-                <Link href="/articles/sns-mobile-wifi" className="text-pink-600 hover:text-pink-700 text-sm font-medium">記事を読む →</Link>
-              </div>
-              
-              <div className="bg-gradient-to-br from-blue-50 to-blue-100 p-6 rounded-lg hover:shadow-lg transition-shadow">
-                <div className="w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center mb-4">
-                  <span className="text-white text-xl">🎓</span>
-                </div>
-                <h3 className="font-semibold mb-2 text-gray-800">大学生向け特集</h3>
-                <p className="text-sm text-gray-600 mb-4">学生にやさしい料金！オンライン授業も動画も思う存分</p>
-                <Link href="/articles/student-mobile-wifi" className="text-blue-600 hover:text-blue-700 text-sm font-medium">記事を読む →</Link>
-              </div>
-              
-              <div className="bg-gradient-to-br from-purple-50 to-purple-100 p-6 rounded-lg hover:shadow-lg transition-shadow">
-                <div className="w-12 h-12 bg-purple-600 rounded-lg flex items-center justify-center mb-4">
-                  <span className="text-white text-xl">🏡</span>
-                </div>
-                <h3 className="font-semibold mb-2 text-gray-800">在宅ワーク・主婦向け</h3>
-                <p className="text-sm text-gray-600 mb-4">工事不要で即日開始！家計にやさしいプランをご紹介</p>
-                <Link href="/articles/housewife-mobile-wifi" className="text-purple-600 hover:text-purple-700 text-sm font-medium">記事を読む →</Link>
-              </div>
+              ))}
             </div>
             
             <div className="text-center mt-8">

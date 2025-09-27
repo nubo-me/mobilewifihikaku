@@ -1,6 +1,23 @@
 import Link from 'next/link';
 import type { Metadata } from "next";
 
+import { LastUpdated } from "../../components/LastUpdated";
+
+const lastUpdated = "2025-01-25";
+
+const articleLd = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  headline: "大学生におすすめのモバイルWiFi【2025年】安い・縛りなしプラン厳選",
+  description: "大学生向けの安くて使いやすいモバイルWiFi特集とおすすめプランを詳しく解説",
+  datePublished: "2025-01-25",
+  dateModified: lastUpdated,
+  author: {
+    "@type": "Organization",
+    name: "モバイルWiFi比較ナビ",
+  },
+};
+
 export const metadata: Metadata = {
   title: "大学生におすすめのモバイルWiFi【2025年】安い・縛りなしプラン厳選",
   description: "大学生・専門学生必見！学割やキャンペーンを活用して安く使えるモバイルWiFiを厳選。オンライン授業、レポート作成、動画視聴に最適なプランをご紹介。",
@@ -22,18 +39,7 @@ export default function StudentMobileWifiPage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "Article",
-            "headline": "大学生におすすめのモバイルWiFi【2025年】安い・縛りなしプラン厳選",
-            "description": "大学生向けの安くて使いやすいモバイルWiFi特集とおすすめプランを詳しく解説",
-            "datePublished": "2025-01-25",
-            "dateModified": "2025-01-25",
-            "author": {
-              "@type": "Organization",
-              "name": "モバイルWiFi比較ナビ"
-            }
-          })
+          __html: JSON.stringify(articleLd),
         }}
       />
 
@@ -69,6 +75,7 @@ export default function StudentMobileWifiPage() {
               オンライン授業も動画も思う存分！<br className="md:hidden" />
               学生にやさしいプランをご紹介
             </p>
+            <LastUpdated date={lastUpdated} className="mt-4 justify-center" />
           </div>
 
           {/* 学生の悩み */}

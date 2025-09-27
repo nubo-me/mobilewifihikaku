@@ -1,6 +1,43 @@
 import Link from 'next/link';
 import type { Metadata } from "next";
 
+import { LastUpdated } from "../../components/LastUpdated";
+
+const lastUpdated = "2025-01-05";
+
+const articleLd = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  headline: "契約縛りなしモバイルWiFi完全ガイド",
+  description:
+    "契約期間の縛りがないモバイルWiFiサービスを徹底比較。短期利用や試用にも最適な選び方とおすすめランキング",
+  datePublished: "2025-01-05",
+  dateModified: lastUpdated,
+  inLanguage: "ja-JP",
+  mainEntityOfPage: {
+    "@type": "WebPage",
+    "@id": "https://mobilewifihikaku.web.app/articles/no-contract-wifi",
+  },
+  publisher: {
+    "@type": "Organization",
+    name: "モバイルWiFi比較ナビ",
+    logo: {
+      "@type": "ImageObject",
+      url: "https://mobilewifihikaku.web.app/og-image.jpg",
+    },
+  },
+};
+
+const breadcrumbLd = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "ホーム", item: "https://mobilewifihikaku.web.app/" },
+    { "@type": "ListItem", position: 2, name: "記事一覧", item: "https://mobilewifihikaku.web.app/articles" },
+    { "@type": "ListItem", position: 3, name: "契約縛りなしWiFi", item: "https://mobilewifihikaku.web.app/articles/no-contract-wifi" },
+  ],
+};
+
 export const metadata: Metadata = {
   title: "契約縛りなしモバイルWiFi完全ガイド | いつでも解約できるおすすめサービス比較",
   description: "契約期間の縛りがないモバイルWiFiサービスを徹底比較。短期利用や試用にも最適な自由度の高いサービスの選び方とおすすめランキングをご紹介します。",
@@ -18,31 +55,13 @@ export default function NoContractWifiPage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "Article",
-            "headline": "契約縛りなしモバイルWiFi完全ガイド",
-            "description": "契約期間の縛りがないモバイルWiFiサービスを徹底比較。短期利用や試用にも最適な選び方とおすすめランキング",
-            "datePublished": "2025-01-05",
-            "dateModified": "2025-01-05",
-            "inLanguage": "ja-JP",
-            "mainEntityOfPage": {"@type": "WebPage", "@id": "https://mobilewifihikaku.web.app/articles/no-contract-wifi"},
-            "publisher": {"@type": "Organization", "name": "モバイルWiFi比較ナビ", "logo": {"@type": "ImageObject", "url": "https://mobilewifihikaku.web.app/og-image.jpg"}}
-          })
+          __html: JSON.stringify(articleLd),
         }}
       />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "BreadcrumbList",
-            "itemListElement": [
-              {"@type": "ListItem", "position": 1, "name": "ホーム", "item": "https://mobilewifihikaku.web.app/"},
-              {"@type": "ListItem", "position": 2, "name": "記事一覧", "item": "https://mobilewifihikaku.web.app/articles"},
-              {"@type": "ListItem", "position": 3, "name": "契約縛りなしWiFi", "item": "https://mobilewifihikaku.web.app/articles/no-contract-wifi"}
-            ]
-          })
+          __html: JSON.stringify(breadcrumbLd),
         }}
       />
       {/* Header */}
@@ -100,6 +119,7 @@ export default function NoContractWifiPage() {
               いつでも解約できる自由度の高いモバイルWiFiサービスを徹底比較。
               短期利用や試用にも最適なサービスの選び方とおすすめランキングをご紹介。
             </p>
+            <LastUpdated date={lastUpdated} className="mb-8" />
             
             <div className="bg-green-50 p-6 rounded-lg mb-8">
               <h2 className="font-semibold text-green-800 mb-3">この記事で分かること</h2>

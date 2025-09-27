@@ -1,6 +1,42 @@
 import Link from 'next/link';
 import type { Metadata } from "next";
 
+import { LastUpdated } from "../../components/LastUpdated";
+
+const lastUpdated = "2025-01-03";
+
+const articleLd = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  headline: "海外で使えるモバイルWiFi徹底比較【2025年最新】",
+  description: "海外旅行や出張で使えるモバイルWiFiサービスを徹底比較。料金、対応国数、通信速度など詳細",
+  datePublished: "2025-01-03",
+  dateModified: lastUpdated,
+  inLanguage: "ja-JP",
+  mainEntityOfPage: {
+    "@type": "WebPage",
+    "@id": "https://mobilewifihikaku.web.app/articles/international-wifi",
+  },
+  publisher: {
+    "@type": "Organization",
+    name: "モバイルWiFi比較ナビ",
+    logo: {
+      "@type": "ImageObject",
+      url: "https://mobilewifihikaku.web.app/og-image.jpg",
+    },
+  },
+};
+
+const breadcrumbLd = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "ホーム", item: "https://mobilewifihikaku.web.app/" },
+    { "@type": "ListItem", position: 2, name: "記事一覧", item: "https://mobilewifihikaku.web.app/articles" },
+    { "@type": "ListItem", position: 3, name: "海外で使えるモバイルWiFi", item: "https://mobilewifihikaku.web.app/articles/international-wifi" },
+  ],
+};
+
 export const metadata: Metadata = {
   title: "海外で使えるモバイルWiFi徹底比較【2025年最新】| 料金・対応国・速度で選ぶおすすめサービス",
   description: "海外旅行や出張で使えるモバイルWiFiサービスを徹底比較。料金、対応国数、通信速度、レンタル期間など詳細情報でピッタリの海外WiFiが見つかります。",
@@ -18,31 +54,13 @@ export default function InternationalWiFiPage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "Article",
-            "headline": "海外で使えるモバイルWiFi徹底比較【2025年最新】",
-            "description": "海外旅行や出張で使えるモバイルWiFiサービスを徹底比較。料金、対応国数、通信速度など詳細",
-            "datePublished": "2025-01-03",
-            "dateModified": "2025-01-03",
-            "inLanguage": "ja-JP",
-            "mainEntityOfPage": {"@type": "WebPage", "@id": "https://mobilewifihikaku.web.app/articles/international-wifi"},
-            "publisher": {"@type": "Organization", "name": "モバイルWiFi比較ナビ", "logo": {"@type": "ImageObject", "url": "https://mobilewifihikaku.web.app/og-image.jpg"}}
-          })
+          __html: JSON.stringify(articleLd),
         }}
       />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "BreadcrumbList",
-            "itemListElement": [
-              {"@type": "ListItem", "position": 1, "name": "ホーム", "item": "https://mobilewifihikaku.web.app/"},
-              {"@type": "ListItem", "position": 2, "name": "記事一覧", "item": "https://mobilewifihikaku.web.app/articles"},
-              {"@type": "ListItem", "position": 3, "name": "海外で使えるモバイルWiFi", "item": "https://mobilewifihikaku.web.app/articles/international-wifi"}
-            ]
-          })
+          __html: JSON.stringify(breadcrumbLd),
         }}
       />
       {/* Header */}
@@ -87,6 +105,7 @@ export default function InternationalWiFiPage() {
             <p className="text-gray-600 text-lg">
               料金・対応国・速度で選ぶおすすめサービス
             </p>
+            <LastUpdated date={lastUpdated} className="mt-4 justify-center" />
           </div>
         </div>
       </div>

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from 'next/link';
 import Breadcrumb from '../../components/Breadcrumb';
+import { LastUpdated } from '@/app/components/LastUpdated';
 
 export const metadata: Metadata = {
   title: "【2025年最新】モバイルWiFiおすすめランキング | 料金・速度・契約期間で徹底比較",
@@ -16,6 +17,8 @@ export const metadata: Metadata = {
     canonical: "/articles/2025-ranking",
   },
 };
+
+const lastUpdated = '2025-08-17';
 
 const rankingData = [
   {
@@ -51,6 +54,39 @@ const rankingData = [
 ];
 
 export default function Ranking2025Page() {
+  const articleLd = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: "【2025年最新】モバイルWiFiおすすめランキング",
+    description:
+      "2025年最新のモバイルWiFiサービスを料金、通信速度、契約期間、データ容量で総合的に評価しランキング形式で紹介",
+    datePublished: lastUpdated,
+    dateModified: lastUpdated,
+    inLanguage: "ja-JP",
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": "https://mobilewifihikaku.web.app/articles/2025-ranking",
+    },
+    publisher: {
+      "@type": "Organization",
+      name: "モバイルWiFi比較ナビ",
+      logo: {
+        "@type": "ImageObject",
+        url: "https://mobilewifihikaku.web.app/og-image.jpg",
+      },
+    },
+  };
+
+  const breadcrumbLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "ホーム", item: "https://mobilewifihikaku.web.app/" },
+      { "@type": "ListItem", position: 2, name: "記事一覧", item: "https://mobilewifihikaku.web.app/articles" },
+      { "@type": "ListItem", position: 3, name: "2025年ランキング", item: "https://mobilewifihikaku.web.app/articles/2025-ranking" },
+    ],
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="container mx-auto px-4 py-8">
@@ -64,41 +100,13 @@ export default function Ranking2025Page() {
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "Article",
-              "headline": "【2025年最新】モバイルWiFiおすすめランキング",
-              "description": "2025年最新のモバイルWiFiサービスを料金、通信速度、契約期間、データ容量で総合的に評価しランキング形式で紹介",
-              "datePublished": "2025-08-17",
-              "dateModified": "2025-08-17",
-              "inLanguage": "ja-JP",
-              "mainEntityOfPage": {
-                "@type": "WebPage",
-                "@id": "https://mobilewifihikaku.web.app/articles/2025-ranking"
-              },
-              "publisher": {
-                "@type": "Organization",
-                "name": "モバイルWiFi比較ナビ",
-                "logo": {
-                  "@type": "ImageObject",
-                  "url": "https://mobilewifihikaku.web.app/og-image.jpg"
-                }
-              }
-            })
+            __html: JSON.stringify(articleLd)
           }}
         />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "BreadcrumbList",
-              "itemListElement": [
-                {"@type": "ListItem", "position": 1, "name": "ホーム", "item": "https://mobilewifihikaku.web.app/"},
-                {"@type": "ListItem", "position": 2, "name": "記事一覧", "item": "https://mobilewifihikaku.web.app/articles"},
-                {"@type": "ListItem", "position": 3, "name": "2025年ランキング", "item": "https://mobilewifihikaku.web.app/articles/2025-ranking"}
-              ]
-            })
+            __html: JSON.stringify(breadcrumbLd)
           }}
         />
         
@@ -110,9 +118,7 @@ export default function Ranking2025Page() {
             <p className="text-lg text-gray-600 mb-6">
               2025年最新のモバイルWiFiサービスを料金、通信速度、契約期間、データ容量で総合的に評価しランキング形式でご紹介します。
             </p>
-            <div className="flex items-center text-sm text-gray-500">
-              <span>更新日: 2025年8月17日</span>
-            </div>
+            <LastUpdated date={lastUpdated} />
           </header>
 
           <div className="mb-8">
