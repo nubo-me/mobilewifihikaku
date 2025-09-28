@@ -145,6 +145,8 @@ const homeArticleCards: HomeArticleCard[] = homeArticleCardConfigs.map((card) =>
   };
 });
 
+const DEFAULT_PRODUCT_IMAGE = 'https://mobilewifihikaku.web.app/og-image.jpg';
+
 const wifiRouters = [
   {
     id: 1,
@@ -439,6 +441,11 @@ const extractFirstHref = (html: string): string | null => {
   return match ? match[1] : null;
 };
 
+const extractFirstImageSrc = (html: string): string | null => {
+  const match = html.match(/<img[^>]+src="([^\"]+)"/i);
+  return match ? match[1] : null;
+};
+
 const faqs = [
   {
     question: 'モバイルWi-Fiとは何ですか？',
@@ -573,6 +580,7 @@ export default function Home() {
             wifiRouters.map(r => {
               const href = extractFirstHref(r.detailLink) || 'https://mobilewifihikaku.web.app';
               const priceNum = Number((r.price || '').replace(/[^0-9.]/g, '')) || undefined;
+              const imageUrl = extractFirstImageSrc(r.adLink) || DEFAULT_PRODUCT_IMAGE;
               return {
                 '@context': 'https://schema.org',
                 '@type': 'Product',
@@ -580,6 +588,7 @@ export default function Home() {
                 category: 'Portable WiFi',
                 brand: { '@type': 'Brand', name: r.name.split(' ')[0] },
                 description: `${r.type} / ${r.contractPeriod} / ${r.speed}`,
+                image: imageUrl,
                 offers: priceNum ? {
                   '@type': 'Offer',
                   priceCurrency: 'JPY',
