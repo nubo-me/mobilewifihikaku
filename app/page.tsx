@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 
 import { LastUpdated } from '@/app/components/LastUpdated';
 import { articlesBySlug } from '@/lib/articlesMetadata';
@@ -624,17 +625,18 @@ export default function Home() {
       {/* Hero Section */}
       <section className="relative py-20 bg-gradient-to-r from-blue-600 to-blue-700 text-white overflow-hidden">
         {/* ヒーロー背景（装飾用）: SVGグラデーションに変更し、altを空にして代替テキストの表示を抑止 */}
-        <img
+        <Image
           src="/hero-gradient.svg"
-          width={1200}
-          height={630}
           alt=""
           aria-hidden="true"
           role="presentation"
-          className="absolute inset-0 w-full h-full object-cover opacity-40 pointer-events-none z-0"
-          decoding="async"
-          fetchPriority="high"
-          onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }}
+          fill
+          priority
+          sizes="100vw"
+          className="absolute inset-0 object-cover opacity-40 pointer-events-none z-0"
+          onError={(event) => {
+            event.currentTarget.style.display = 'none';
+          }}
         />
         <div className="container mx-auto px-4 relative z-10">
           <div className="max-w-5xl mx-auto text-center lg:text-left">

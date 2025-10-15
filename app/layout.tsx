@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import { Geist, Geist_Mono, Pacifico } from "next/font/google";
 import "./globals.css";
 
@@ -95,6 +96,13 @@ export default function RootLayout({
       <head>
         {/* Google AdSense site verification */}
         <meta name="google-adsense-account" content="ca-pub-4321998223277477" />
+        <Script
+          id="google-adsense"
+          async
+          strategy="afterInteractive"
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4321998223277477"
+          crossOrigin="anonymous"
+        />
         {/* Preload LCP hero image (SVG) */}
         <link
           rel="preload"
