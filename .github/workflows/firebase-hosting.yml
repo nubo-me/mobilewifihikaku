@@ -11,8 +11,6 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-    env:
-      FIREBASE_TOKEN: '${{ secrets.FIREBASE_TOKEN }}'
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -29,4 +27,8 @@ jobs:
         run: npm run build
 
       - name: Deploy to Firebase Hosting
-        run: npx firebase deploy --only hosting --token "$FIREBASE_TOKEN"
+        uses: w9jds/firebase-action@v12
+        with:
+          args: deploy --only hosting
+        env:
+          GCP_SA_KEY: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
